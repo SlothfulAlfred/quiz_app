@@ -1,1 +1,1 @@
-abstract class LocalStorage {}
+abstract class Storage {}
