@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Quiz {
   final int id;
   final String topic;
@@ -19,7 +21,12 @@ class Choice {
       this.hintText});
 }
 
+class LoginResponse {
+  final bool success;
+  final FirebaseAuthException? error;
 
+  LoginResponse({required this.success, this.error});
+}
 
 
 
