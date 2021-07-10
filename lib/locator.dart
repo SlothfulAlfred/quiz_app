@@ -4,6 +4,7 @@ import 'package:quiz_app/core/services/authentication.dart';
 import 'package:quiz_app/core/services/fake_api.dart';
 import 'package:quiz_app/core/services/firebase_api.dart';
 import 'package:quiz_app/core/services/navigation_service.dart';
+import 'package:quiz_app/core/viewModels/home_view_model.dart';
 import 'package:quiz_app/core/viewModels/login_view_model.dart';
 
 GetIt locator = GetIt.instance;
@@ -17,4 +18,5 @@ void setupLocator() {
       () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
+  locator.registerFactory<HomeViewModel>(() => HomeViewModel());
 }
