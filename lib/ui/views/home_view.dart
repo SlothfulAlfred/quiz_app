@@ -9,7 +9,15 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(),
       body: Container(
         color: Colors.grey[850],
-        child: Text('HomeView'),
+        child: Center(
+          child: Text(
+            'HomeView',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+            ),
+          ),
+        ),
       ),
     );
   }
