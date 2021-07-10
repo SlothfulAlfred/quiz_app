@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 
@@ -38,5 +39,11 @@ class FirebaseApi implements Api {
     } on FirebaseAuthException catch (e) {
       return LoginResponse(success: false, error: e);
     }
+  }
+
+  @override
+  Future<String>? getPhotoFromPath(String url) async {
+    var download = await FirebaseStorage.instance.ref(url).getDownloadURL();
+    return download;
   }
 }

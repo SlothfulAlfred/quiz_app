@@ -54,4 +54,10 @@ class FakeApi implements Api {
         return LoginResponse(success: true);
     }
   }
+
+  @override
+  Future? getPhotoFromPath(String url) async {
+    await Future.delayed(Duration(seconds: 1));
+    return "https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0";
+  }
 }
