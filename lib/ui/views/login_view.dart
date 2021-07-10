@@ -31,16 +31,18 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(),
       body: BaseView<LoginViewModel>(
         builder: _buildContent,
+        onBuild: (LoginViewModel model) {
+          if (model.error != null) {
+            _emailText.clear();
+            _passwordText.clear();
+          }
+        },
       ),
     );
   }
 
   Widget _buildContent(
       BuildContext context, LoginViewModel model, Widget? child) {
-    if (model.error != null) {
-      _emailText.clear();
-      _passwordText.clear();
-    }
     if (model.state == ViewState.idle) {
       return Center(
         child: Padding(
