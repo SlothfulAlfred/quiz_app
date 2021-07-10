@@ -10,18 +10,36 @@ import 'package:quiz_app/locator.dart';
 /// The [builder] paramter is passed into the [Consumer.builder] so that it
 /// rebuilds whenever the state of the ViewModel changes.
 ///
-/// Taken directly from https://www.filledstacks.com/post/flutter-architecture-my-provider-implementation-guide/#shared-setup-for-all-views.
-class BaseView<T extends BaseModel> extends StatelessWidget {
+/// Taken directly from:
+/// https://www.filledstacks.com/post/flutter-architecture-my-provider-implementation-guide/#shared-setup-for-all-views.
+class BaseView<T extends BaseModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget? child) builder;
+  final void Function(T)? init;
 
-  const BaseView({Key? key, required this.builder}) : super(key: key);
+  const BaseView({Key? key, required this.builder, this.init})
+      : super(key: key);
+
+  @override
+  _BaseViewState<T> createState() => _BaseViewState<T>();
+}
+
+class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
+  T model = locator<T>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.init != null) {
+      widget.init!(model);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
       create: (_) => locator<T>(),
       child: Consumer<T>(
-        builder: builder,
+        builder: widget.builder,
       ),
     );
   }
