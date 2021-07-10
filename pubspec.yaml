@@ -34,6 +34,8 @@ dependencies:
   firebase_core: ^1.3.0
   cloud_firestore: ^2.3.0
   firebase_auth: ^2.0.0
+  # cloud storage
+  firebase_storage: ^9.0.0
 
   # persistance of local settings 
   shared_preferences: ^2.0.6
