@@ -21,14 +21,32 @@ import 'package:flutter/material.dart';
 class NavigationService {
   final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
 
+  /// Same functionality as [NavigatorState.pushNamed]** but without
+  /// the need for [BuildContext].
+  ///
+  /// ** [NavigatorState] is the return value of [Navigator.of].
   Future<Object?> pushNamed(String route, {dynamic arguments}) {
     // Using ! operator here because the navigator must exist since it
     // was created above.
-    return nav.currentState!.pushNamed(route, arguments: arguments);
+    return nav.currentState!.pushNamed<dynamic>(route, arguments: arguments);
   }
 
-  // Matching the signature of [Navigator.pop].
+  /// Same functionality as [NavigatorState.pop] but
+  /// without the need for [BuildContext].
   void pop<T extends Object?>([T? result]) {
-    return nav.currentState!.pop(result);
+    return nav.currentState!.pop<dynamic>(result);
+  }
+
+  /// Same functionality as [NavigatorState.pushReplacementNamed] but
+  /// without the need for [BuildContext].
+  Future<Object?> pushReplacementNamed(String route, {dynamic arguments}) {
+    // The <dynamic, dynamic> typing is to prevent a casting error.
+    // "_CastError (type 'MaterialPageRoute<dynamic>' is not a subtype of type 'Route<Object>?' in type cast)"
+    // It seems this happens because of issues with the return value, which explains why
+    // having type inference would help. One possible solution offered on StackOverflow
+    // is to explicitly type the MaterialPageRoutes in the onGenerateRoute function
+    // which could help solve the casting error
+    return nav.currentState!
+        .pushReplacementNamed<dynamic, dynamic>(route, arguments: arguments);
   }
 }
