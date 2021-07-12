@@ -1,28 +1,28 @@
 import 'package:quiz_app/core/models/api_models.dart';
-import 'package:quiz_app/core/services/api.dart';
+import 'package:quiz_app/core/services/navigation_service.dart';
+import 'package:quiz_app/core/services/quiz_service.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/core/viewModels/base_model.dart';
+import 'package:quiz_app/ui/routing_constants.dart';
 
 class HomeViewModel extends BaseModel {
-  Api _api = locator<Api>();
+  NavigationService _nav = locator<NavigationService>();
+  QuizService _quizzes = locator<QuizService>();
 
   HomeViewModel() {
-    fetchImage();
+    getQuizzes();
   }
 
   List<Quiz> quiz = [];
 
-  Future fetchImage() async {
+  Future<void> getQuizzes() async {
     setState(ViewState.busy);
-    var _imagePath = await _api.getPhotoFromPath('url');
-    quiz.add(Quiz(
-      description: '',
-      id: 0,
-      title: '',
-      imagePath: _imagePath,
-      length: 10,
-    ));
+    quiz = await _quizzes.getQuizzes();
     setState(ViewState.idle);
+  }
+
+  void heroTapped(String id) {
+    _nav.pushNamed(quizRoute, arguments: {'quizId': id});
   }
 }
