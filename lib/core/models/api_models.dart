@@ -1,10 +1,11 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// Represents a question of a quiz.
 class Question {
-  final int id;
+  final String id;
   final int quizId;
   final String question;
   final Map<int, Choice> choices;
@@ -19,7 +20,7 @@ class Question {
 
 /// Represents a possible answer for a question.
 class Choice {
-  final int id;
+  final String id;
   final bool isCorrect;
   final String text;
   final String? hintText;
@@ -35,7 +36,7 @@ class Choice {
 
 /// Represents a quiz.
 class Quiz {
-  final int id;
+  final String id;
   final String title;
   final String imagePath;
   final String description;
@@ -48,6 +49,13 @@ class Quiz {
     required this.description,
     required this.length,
   });
+
+  Quiz.fromDocument(DocumentSnapshot doc)
+      : id = doc.id,
+        title = doc['title'],
+        imagePath = doc['image'],
+        description = doc['description'],
+        length = doc['length'];
 }
 
 /// Stores information about a user.
@@ -69,7 +77,7 @@ class User {
 
 /// Represents how far a user has progressed in the quizzes.
 class Progress {
-  final Map<int, Map<int, bool>> _progress;
+  final Map<String, Map<String, bool>> _progress;
 
   UnmodifiableMapView get progress => UnmodifiableMapView(_progress);
 
@@ -152,7 +160,7 @@ class LoginResponse {
 /// 'question' is the text containing the actual question to be asked
 /// 'quiz_id' is the associated quiz
 /// 
-/// 'choices' is a map of {int: map}, the keys are the id of the choices
+/// 'choices' is a map of {String: map}, the keys are the id of the choices
 /// while the values are maps representing choices. It is represented
 /// this way since choices will *always* be displayed together with 
 /// their corresponding questions, so if they were put into subcollections
@@ -164,29 +172,29 @@ class LoginResponse {
 /// - 'hint_text': text to be displayed if a wrong answer is chosen, 
 ///                null if the choice is correct.
 /// ---------------------------------------------------------------------
-/// "id": 0
-/// "quiz_id": 0
+/// "id": '00'
+/// "quiz_id": '0'
 /// "question": "What primitive type represents text in dart?"
 /// choices: {
-///   0: {
+///   '0': {
 ///     "text": 'int',
 ///     "is_correct": false,
 ///     "hint_text": 'type int is used to represent integers (-1, 0, 1, 2...)',
 ///   },
 /// 
-///   1: {
+///   '1': {
 ///     "text": 'double',
 ///     "is_correct": false,
 ///     "hint_text": 'type double is used to represent decimal numbers (0.01, 2.343...)',
 ///   },
 /// 
-///   2: {
+///   '2': {
 ///     "text": 'String',
 ///     "is_correct": true,
 ///     "hint_text": null,
 ///   },
 /// 
-///   3: {
+///   '3': {
 ///     "text": 'bool',
 ///     "is_correct": false,
 ///     "hint_text": 'type bool is used to represent true/false values',
