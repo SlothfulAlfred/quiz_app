@@ -1,2 +1,4 @@
-const String homeRoute = 'home';
-const String loginRoute = '/';
+const String homeRoute = '/';
+const String loginRoute = 'auth';
+const String quizRoute = '/quiz';
+const String questionRoute = '/quiz/questions';
