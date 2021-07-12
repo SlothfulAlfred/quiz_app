@@ -1,21 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 
 class FirebaseApi implements Api {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _db = FirebaseFirestore.instance;
 
   @override
-  Future getQuestions(int quizId) {
+  Future getQuestions(String quizId) async {
     // TODO: implement getQuestions
     throw UnimplementedError();
   }
 
   @override
-  Future getQuizzes() {
-    // TODO: implement getQuizzes
-    throw UnimplementedError();
+  Future<List<Quiz>> getQuizzes() async {
+    List<Quiz> quizzes = [];
+    await _db.collection('quiz').get().then((QuerySnapshot query) {
+      query.docs.forEach((doc) {
+        quizzes.add(Quiz.fromDocument(doc));
+      });
+    });
+    return quizzes;
   }
 
   @override
