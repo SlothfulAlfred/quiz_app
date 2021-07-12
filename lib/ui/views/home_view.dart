@@ -3,6 +3,7 @@ import 'package:quiz_app/core/viewModels/home_view_model.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
+import 'package:quiz_app/ui/shared/quiz_tile.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
@@ -16,27 +17,26 @@ class HomeView extends StatelessWidget {
         builder: (BuildContext context, HomeViewModel model, Widget? chlild) {
           if (model.state == ViewState.idle) {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    color: Colors.grey[850],
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: (model.quiz.length > 0)
-                          ? Image.network(
-                              model.quiz[0].imagePath,
-                              fit: BoxFit.cover,
-                            )
-                          : Placeholder(),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: model.fetchImage,
-                    child: Text('Press Me'),
-                  ),
-                ],
+              child: GridView.count(
+                // TODO: make this grid responsive UI
+                crossAxisCount: 2,
+                physics: BouncingScrollPhysics(),
+                // Take the quizzes from the model and map them all to [QuizTile]s
+                children: model.quiz
+                    .map<QuizTile>((quiz) => QuizTile(
+                          id: quiz.id,
+                          imagePath: quiz.imagePath,
+                          title: quiz.title,
+                          // Anonymous function that extracts the quiz id and passes it
+                          // to heroTapped. This makes the function is a VoidCallback
+                          // and can therefore be used in [GestureDetector] onTap callbacks.
+                          onTap: () {
+                            String id = quiz.id;
+                            model.heroTapped(id);
+                          },
+                        ))
+                    .toList(),
+                padding: const EdgeInsets.fromLTRB(8, 12, 8, 24),
               ),
             );
           } else {
