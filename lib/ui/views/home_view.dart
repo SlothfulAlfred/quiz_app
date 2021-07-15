@@ -3,7 +3,7 @@ import 'package:quiz_app/core/viewModels/home_view_model.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
-import 'package:quiz_app/ui/shared/quiz_tile.dart';
+import 'package:quiz_app/ui/widgets/quiz_tile.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
@@ -27,12 +27,11 @@ class HomeView extends StatelessWidget {
                           id: quiz.id,
                           imagePath: quiz.imagePath,
                           title: quiz.title,
-                          // Anonymous function that extracts the quiz id and passes it
+                          // Anonymous function that  passes the current quiz
                           // to heroTapped. This makes the function is a VoidCallback
                           // and can therefore be used in [GestureDetector] onTap callbacks.
                           onTap: () {
-                            String id = quiz.id;
-                            model.heroTapped(id);
+                            model.heroTapped(quiz);
                           },
                         ))
                     .toList(),

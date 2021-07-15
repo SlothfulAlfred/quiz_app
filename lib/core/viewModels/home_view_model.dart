@@ -22,7 +22,7 @@ class HomeViewModel extends BaseModel {
     setState(ViewState.idle);
   }
 
-  void heroTapped(String id) {
-    _nav.pushNamed(quizRoute, arguments: {'quizId': id});
+  void heroTapped(Quiz quiz) {
+    _nav.pushNamed(quizRoute, arguments: quiz);
   }
 }
