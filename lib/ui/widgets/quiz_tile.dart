@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/ui/shared/network_image_hero.dart';
+import 'package:quiz_app/ui/widgets/network_image_hero.dart';
 
+/// Stylized [GridTile] with a translucent header.
 class QuizTile extends StatelessWidget {
   final String id;
   final String title;
