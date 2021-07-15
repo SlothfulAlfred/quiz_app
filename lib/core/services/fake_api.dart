@@ -19,7 +19,8 @@ class FakeApi implements Api {
         Quiz(
           id: i.toString(),
           title: 'Test Quiz',
-          description: 'A fake quiz for testing',
+          description:
+              'A fake quiz for testing. longer description so that I can see the fit when the description holds actual content. Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler fliler filler filler filler',
           length: i,
           imagePath:
               'https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0',

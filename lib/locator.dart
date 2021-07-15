@@ -8,12 +8,16 @@ GetIt locator = GetIt.instance;
 bool useFakeData = true;
 
 void setupLocator() {
+  // Services
   locator.registerLazySingleton<Api>(
       () => useFakeData ? FakeApi() : FirebaseApi());
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
+  locator.registerLazySingleton<QuizService>(() => QuizService());
+
+  // ViewModels
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
   locator.registerFactory<HomeViewModel>(() => HomeViewModel());
-  locator.registerLazySingleton<QuizService>(() => QuizService());
+  locator.registerFactory<QuizViewModel>(() => QuizViewModel());
 }
