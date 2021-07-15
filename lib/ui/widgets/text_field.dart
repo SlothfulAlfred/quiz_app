@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Stylized [TextField] to declutter views.
 class InputField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focus;
