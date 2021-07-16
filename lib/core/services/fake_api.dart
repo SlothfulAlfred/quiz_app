@@ -5,9 +5,68 @@ import 'dart:math';
 
 class FakeApi implements Api {
   @override
-  Future getQuestions(String quizId) {
-    // TODO: implement getQuestions
-    throw UnimplementedError();
+  Future getQuestions(String quizId) async {
+    await Future.delayed(Duration(seconds: 1));
+    return [
+      Question(
+        id: '0',
+        quizId: '0',
+        question: 'a sample question?',
+        choices: {
+          0: Choice(
+              id: '0',
+              isCorrect: false,
+              hintText: 'Better luck next time',
+              text: 'first choice'),
+          1: Choice(
+              id: '1',
+              isCorrect: false,
+              hintText: 'Third time\'s the charm...',
+              text: 'second choice'),
+          2: Choice(
+            id: '2',
+            isCorrect: true,
+            hintText: null,
+            text: 'corect choice',
+          ),
+          3: Choice(
+            id: '3',
+            isCorrect: false,
+            hintText: 'The good thing about rock bottom...',
+            text: 'another wrong choice',
+          ),
+        },
+      ),
+      Question(
+        id: '1',
+        quizId: '0',
+        question: 'another sample question?',
+        choices: {
+          0: Choice(
+              id: '0',
+              isCorrect: false,
+              hintText: 'Better luck next time',
+              text: 'second first choice'),
+          1: Choice(
+              id: '1',
+              isCorrect: false,
+              hintText: 'Third time\'s the charm...',
+              text: 'second second choice'),
+          2: Choice(
+            id: '2',
+            isCorrect: true,
+            hintText: null,
+            text: 'second corect choice',
+          ),
+          3: Choice(
+            id: '3',
+            isCorrect: false,
+            hintText: 'The good thing about rock bottom...',
+            text: 'second another wrong choice',
+          ),
+        },
+      ),
+    ];
   }
 
   @override
