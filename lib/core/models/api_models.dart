@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 /// Represents a question of a quiz.
 class Question {
   final String id;
-  final int quizId;
+  final String quizId;
   final String question;
   final Map<int, Choice> choices;
 
