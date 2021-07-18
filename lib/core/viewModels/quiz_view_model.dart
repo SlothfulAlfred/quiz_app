@@ -12,6 +12,6 @@ class QuizViewModel extends BaseModel {
   }
 
   void onStartPressed(Quiz quiz) {
-    _nav.pushNamed(questionRoute, arguments: quiz);
+    _nav.pushNamed(questionsRoute, arguments: {'quiz': quiz});
   }
 }
