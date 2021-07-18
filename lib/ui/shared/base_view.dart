@@ -16,9 +16,16 @@ import 'package:quiz_app/locator.dart';
 /// you may want to clear a [TextField] in LoginView whenever the error changes. This
 /// would be a good place to use [onBuild] instead of crowding the [builder] function.
 ///
+/// The types `P extends Object?, P2 extends Object?` allow for use of parameters to initialize
+/// dependencies. This works well in conjunction with [GetIt.registerFactoryParam],
+/// since there is no need for different building logic. To avoid this functionality,
+/// use `BaseView<T, void, void>`. This is required since Dart does not have optional
+/// type parameters for generics.
+///
 /// Taken (almost) directly from:
 /// https://www.filledstacks.com/post/flutter-architecture-my-provider-implementation-guide/#shared-setup-for-all-views.
-class BaseView<T extends BaseModel> extends StatefulWidget {
+class BaseView<T extends BaseModel, P extends Object?, P2 extends Object?>
+    extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget? child) builder;
   final void Function(T)? onBuild;
 
@@ -31,20 +38,49 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
   @deprecated
   final Function(T)? init;
 
-  const BaseView({Key? key, required this.builder, this.onBuild, this.init})
+  /// Optional parameter that can be used to initialize dependencies
+  /// that are dependant on parameters. For example, those registered
+  /// using [GetIt.registerFactoryParam].
+  final P? param;
+
+  /// Only provide a value for this field if you have already provided
+  /// a value for [param].
+  final P2? paramTwo;
+
+  const BaseView(
+      {Key? key,
+      required this.builder,
+      this.onBuild,
+      this.init,
+      this.param,
+      this.paramTwo})
       : super(key: key);
 
   @override
-  _BaseViewState<T> createState() => _BaseViewState<T>();
+  _BaseViewState<T, P, P2> createState() => _BaseViewState<T, P, P2>();
 }
 
-class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
-  T model = locator<T>();
+class _BaseViewState<T extends BaseModel, P extends Object?, P2 extends Object?>
+    extends State<BaseView<T, P, P2>> {
+  late T model;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.param != null) {
+      model = locator.get<T>(param1: widget.param, param2: widget.paramTwo);
+    } else {
+      model = locator<T>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
-      create: (_) => locator<T>(),
+      create: (widget.param == null)
+          ? (_) => locator<T>()
+          : (_) =>
+              locator.get<T>(param1: widget.param, param2: widget.paramTwo),
       child: Consumer<T>(
         builder: (BuildContext context, T model, Widget? child) {
           if (widget.onBuild != null) {
