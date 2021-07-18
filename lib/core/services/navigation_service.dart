@@ -49,4 +49,18 @@ class NavigationService {
     return nav.currentState!
         .pushReplacementNamed<dynamic, dynamic>(route, arguments: arguments);
   }
+
+  /// Same functionality as [NavigatorState.popAndPushNamed] but without
+  /// the need for [BuildContext].
+  Future<Object?> popAndPushNamed(
+    String route, {
+    dynamic arguments,
+    dynamic result,
+  }) {
+    return nav.currentState!.popAndPushNamed<dynamic, dynamic>(
+      route,
+      arguments: arguments,
+      result: result,
+    );
+  }
 }
