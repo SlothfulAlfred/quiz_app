@@ -29,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: BaseView<LoginViewModel>(
+      body: BaseView<LoginViewModel, void, void>(
         builder: _buildContent,
         onBuild: (LoginViewModel model) {
           if (model.error != null) {
