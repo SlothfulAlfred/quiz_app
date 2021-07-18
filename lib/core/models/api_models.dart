@@ -10,6 +10,10 @@ class Question {
   final String question;
   final Map<int, Choice> choices;
 
+  UnmodifiableListView<Choice> get choicesList {
+    return UnmodifiableListView(choices.values.toList());
+  }
+
   Question({
     required this.id,
     required this.quizId,
