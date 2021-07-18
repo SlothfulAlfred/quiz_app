@@ -18,3 +18,26 @@ class VerticalSpace {
         height: 12,
       );
 }
+
+/// Constant horizontal spacing for separating widgets.
+class HorizontalSpace {
+  static get large => const SizedBox(
+        width: 50,
+      );
+
+  static get medium => const SizedBox(
+        width: 30,
+      );
+
+  static get small => const SizedBox(
+        width: 18,
+      );
+
+  static get extraSmall => const SizedBox(
+        width: 12,
+      );
+
+  static get tiny => const SizedBox(
+        width: 6,
+      );
+}
