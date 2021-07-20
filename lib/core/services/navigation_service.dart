@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 /// https://api.flutter.dev/flutter/material/MaterialApp/navigatorKey.html
 class NavigationService {
   final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> nestedNav = GlobalKey<NavigatorState>();
 
   /// Same functionality as [NavigatorState.pushNamed]** but without
   /// the need for [BuildContext].
@@ -62,5 +63,23 @@ class NavigationService {
       arguments: arguments,
       result: result,
     );
+  }
+
+  /// Pushes a named route for a nested navigator flow.
+  Future<Object?> nestedPushNamed(String route, {dynamic arguments}) {
+    return nestedNav.currentState!
+        .pushNamed<dynamic>(route, arguments: arguments);
+  }
+
+  /// Pushes a replacement named route in a nested navigator flow.
+  Future<Object?> nestedPushReplacementNamed(String route,
+      {dynamic arguments}) {
+    return nestedNav.currentState!
+        .pushReplacementNamed<dynamic, dynamic>(route, arguments: arguments);
+  }
+
+  /// Pops a nested route from the stack.
+  void nestedPop<T extends Object?>([T? result]) {
+    return nestedNav.currentState!.pop<dynamic>(result);
   }
 }
