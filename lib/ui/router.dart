@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
+import 'package:quiz_app/core/viewModels/questions_view_model.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
+import 'package:quiz_app/ui/views/error_view.dart';
 import 'package:quiz_app/ui/views/home_view.dart';
 import 'package:quiz_app/ui/views/login_view.dart';
 import 'package:quiz_app/ui/views/questions_view.dart';
@@ -10,24 +12,76 @@ import 'package:quiz_app/ui/views/quiz_view.dart';
 ///
 /// Arguments should be passed through [RouteSettings.arguments]
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
-  switch (settings.name) {
+  late Widget page;
+  switch (settings.name!) {
     case loginRoute:
-      return MaterialPageRoute(builder: (_) => LoginView());
+      page = LoginView();
+      break;
 
     case homeRoute:
-      return MaterialPageRoute(builder: (_) => HomeView());
+      page = HomeView();
+      break;
 
     case quizRoute:
       var quiz = settings.arguments as Quiz;
-      return MaterialPageRoute(builder: (_) => QuizView(quiz: quiz));
-
-    case questionsRoute:
-      var args = settings.arguments as Map;
-      var quiz = args['quiz'] as Quiz;
-      return MaterialPageRoute(builder: (_) => QuestionsView(quiz: quiz));
+      page = QuizView(quiz: quiz);
+      break;
 
     default:
-      // TODO: Return UndefinedRoute
-      return MaterialPageRoute(builder: (_) => LoginView());
+      // Handle nested flow.
+      if (settings.name!.startsWith(questionsRoutePrefix)) {
+        var args = settings.arguments as Map;
+        var quiz = args['quiz'] as Quiz;
+        page = QuestionsViewModel(quiz: quiz);
+      } else {
+        // TODO: Return UndefinedRoute
+        var args = settings.arguments! as Map;
+        var error = args['error'] as Error;
+        page = ErrorView(
+          error: error,
+        );
+      }
+  }
+
+  return MaterialPageRoute(builder: (_) => page);
+}
+
+/// Handles route generation for the nested Questions flow.
+Route nestedGenerateRoute(RouteSettings settings) {
+  switch (settings.name!) {
+    case questionsRouteInProgress:
+      // Extract arguments.
+      var args = settings.arguments! as Map;
+      Function onChoiceSelected = args['onChoiceSelected'];
+      Question question = args['question'];
+
+      // return route with animated transition.
+      return PageRouteBuilder(
+        pageBuilder: (_, __, ___) => QuestionsViewPage(
+          question: question,
+          onChoiceSelected: onChoiceSelected,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 2.0);
+          var end = Offset.zero;
+          var tween = Tween(begin: begin, end: end).chain(
+            CurveTween(curve: Curves.easeOut),
+          );
+          return SlideTransition(
+            child: child,
+            position: tween.animate(animation),
+          );
+        },
+      );
+
+    case questionsRouteStart:
+      return MaterialPageRoute(builder: (_) => QuestionsStartPage());
+
+    case questionsRouteFinished:
+      return MaterialPageRoute(builder: (_) => QuestionsFinishedPage());
+
+    default:
+      // TODO: return undefined route.
+      return MaterialPageRoute(builder: (_) => ErrorView());
   }
 }
