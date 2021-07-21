@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// the current page.
 ///
 /// For another class with similar functionality and design, see [NavigationService].
-class SnackBarService {
+class ScaffoldService {
   final GlobalKey<ScaffoldMessengerState> key =
       GlobalKey<ScaffoldMessengerState>();
 

@@ -15,7 +15,7 @@ void setupLocator() {
       () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<QuizService>(() => QuizService());
-  locator.registerLazySingleton<SnackBarService>(() => SnackBarService());
+  locator.registerLazySingleton<ScaffoldService>(() => ScaffoldService());
 
   // ViewModels
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());

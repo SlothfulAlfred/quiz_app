@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 import 'package:quiz_app/core/services/navigation_service.dart';
-import 'package:quiz_app/core/services/snackbar_service.dart';
+import 'package:quiz_app/core/services/scaffold_service.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
 import 'package:quiz_app/ui/router.dart';
@@ -56,7 +56,7 @@ class QuestionsViewModel extends StatelessWidget {
   // It is okay to set this to static since get_it returns a lazy
   // singleton anyway so it is always the same instance.
   static final NavigationService _nav = locator<NavigationService>();
-  final SnackBarService _snackBar = locator<SnackBarService>();
+  final ScaffoldService _snackBar = locator<ScaffoldService>();
 
   late final List<Question> questions;
   final Quiz quiz;
