@@ -19,8 +19,11 @@ import 'package:flutter/material.dart';
 /// https://api.flutter.dev/flutter/widgets/GlobalKey-class.html
 /// https://api.flutter.dev/flutter/material/MaterialApp/navigatorKey.html
 class NavigationService {
-  final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> nestedNav = GlobalKey<NavigatorState>();
+  late final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
+  late final GlobalKey<NavigatorState> nestedNav = GlobalKey<NavigatorState>();
+
+  GlobalKey<NavigatorState> get navKey => nav;
+  GlobalKey<NavigatorState> get nestedNavKey => nestedNav;
 
   /// Same functionality as [NavigatorState.pushNamed]** but without
   /// the need for [BuildContext].
