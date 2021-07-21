@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 
 /// Represents a question of a quiz.
 class Question {
@@ -20,18 +20,21 @@ class Question {
     required this.question,
     required this.choices,
   });
+
+  Question.fromjson(DocumentSnapshot json)
+      : id = json.id,
+        quizId = json['quizId'],
+        question = json['question'],
+        choices = json['choices'];
 }
 
 /// Represents a possible answer for a question.
 class Choice {
-  final String id;
   final bool isCorrect;
   final String text;
   final String? hintText;
 
   Choice({
-    // TODO: consider removing the 'id' field from Choice since it may not be needed
-    required this.id,
     required this.isCorrect,
     required this.text,
     this.hintText,
@@ -54,7 +57,7 @@ class Quiz {
     required this.length,
   });
 
-  Quiz.fromDocument(DocumentSnapshot doc)
+  Quiz.fromJson(DocumentSnapshot doc)
       : id = doc.id,
         title = doc['title'],
         imagePath = doc['image'],
@@ -67,15 +70,15 @@ class User {
   final String uid;
   final String username;
   final String email;
-  final String profilePicturePath;
-  final Progress progress;
+  //final String profilePicturePath;
+  //final Progress progress;
 
   User({
     required this.uid,
     required this.username,
     required this.email,
-    required this.profilePicturePath,
-    required this.progress,
+    //required this.profilePicturePath,
+    //required this.progress,
   });
 }
 
@@ -92,9 +95,10 @@ class Progress {
 /// Utility class to be returned from authentication attempts.
 class LoginResponse {
   final bool success;
-  final FirebaseAuthException? error;
+  final fb.FirebaseAuthException? error;
+  final fb.User? user;
 
-  LoginResponse({required this.success, this.error});
+  LoginResponse({required this.success, this.error, this.user});
 }
 
 

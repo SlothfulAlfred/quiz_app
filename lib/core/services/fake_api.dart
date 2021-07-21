@@ -3,6 +3,7 @@ import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 import 'dart:math';
 
+/// Provides fake data for testing purposes.
 class FakeApi implements Api {
   @override
   Future getQuestions(String quizId) async {
@@ -14,23 +15,19 @@ class FakeApi implements Api {
         question: 'a sample question?',
         choices: {
           0: Choice(
-              id: '0',
               isCorrect: false,
               hintText: 'Better luck next time',
               text: 'first choice'),
           1: Choice(
-              id: '1',
               isCorrect: false,
               hintText: 'Third time\'s the charm...',
               text: 'second choice'),
           2: Choice(
-            id: '2',
             isCorrect: true,
             hintText: null,
             text: 'corect choice',
           ),
           3: Choice(
-            id: '3',
             isCorrect: false,
             hintText: 'The good thing about rock bottom...',
             text: 'another wrong choice',
@@ -43,23 +40,19 @@ class FakeApi implements Api {
         question: 'another sample question?',
         choices: {
           0: Choice(
-              id: '0',
               isCorrect: false,
               hintText: 'Better luck next time',
               text: 'second first choice'),
           1: Choice(
-              id: '1',
               isCorrect: false,
               hintText: 'Third time\'s the charm...',
               text: 'second second choice'),
           2: Choice(
-            id: '2',
             isCorrect: true,
             hintText: null,
             text: 'second corect choice',
           ),
           3: Choice(
-            id: '3',
             isCorrect: false,
             hintText: 'The good thing about rock bottom...',
             text: 'second another wrong choice',
