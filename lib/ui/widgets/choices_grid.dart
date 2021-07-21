@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
 
-/// Two by two grid of randomly ordered, tappable choices.
+/// 4x1 of randomly ordered, tappable choices.
 class ChoicesGrid extends StatelessWidget {
   /// List of exactly four Choice objects that should be displayed.
   final List<Choice> choices;
@@ -24,37 +24,12 @@ class ChoicesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            _ChoicesTile(
-              choice: choices[order[0]],
-              onChoiceSelect: onChoiceSelect,
-            ),
-            HorizontalSpace.tiny,
-            _ChoicesTile(
-              choice: choices[order[1]],
-              onChoiceSelect: onChoiceSelect,
-            )
-          ],
-          crossAxisAlignment: CrossAxisAlignment.center,
-        ),
-        VerticalSpace.extraSmall,
-        Row(
-          children: [
-            _ChoicesTile(
-              choice: choices[order[2]],
-              onChoiceSelect: onChoiceSelect,
-            ),
-            HorizontalSpace.tiny,
-            _ChoicesTile(
-              choice: choices[order[3]],
-              onChoiceSelect: onChoiceSelect,
-            )
-          ],
-          crossAxisAlignment: CrossAxisAlignment.center,
-        ),
+        for (int num in order) ...[
+          _ChoicesTile(choice: choices[num], onChoiceSelect: onChoiceSelect),
+          VerticalSpace.small
+        ]
       ],
     );
   }
@@ -72,14 +47,33 @@ class _ChoicesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sh = MediaQuery.of(context).size.height;
     return ElevatedButton(
-      onPressed: () => onChoiceSelect(choice),
-      child: Text(choice.text),
+      onPressed: (choice.isCorrect)
+          ? () => onChoiceSelect(choice)
+          : () => onChoiceSelect(
+                choice,
+                SnackBar(
+                  duration: Duration(seconds: 3),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  content: Container(
+                    height: sh * 0.10,
+                    alignment: Alignment.center,
+                    child: Text(choice.hintText!),
+                  ),
+                  backgroundColor: Colors.red[900],
+                ),
+              ),
+      child: Text(
+        choice.text,
+      ),
       style: ButtonStyle(
+        padding:
+            MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
         elevation: MaterialStateProperty.all(2),
         shape: MaterialStateProperty.all(
-          BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
         // TODO: add custom color behaviour using MaterialStateProperty.resolveWith
