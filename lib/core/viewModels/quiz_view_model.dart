@@ -8,7 +8,7 @@ class QuizViewModel extends BaseModel {
   NavigationService _nav = locator<NavigationService>();
 
   void onHeroTapped() {
-    _nav.pop();
+    //_nav.pop();
   }
 
   void onStartPressed(Quiz quiz) {
