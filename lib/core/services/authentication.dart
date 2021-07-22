@@ -32,6 +32,11 @@ class AuthenticationService {
         ),
       );
       return true;
+    } else if (useFakeData) {
+      // TODO: remove this unnecessary check.
+      // Just for testing purposes since it's impossible to return
+      // a [UserCredential] from [FakeApi].
+      return true;
     } else {
       // Returns the error so that the ViewModel can handle it
       // if the user was not logged in successfully.

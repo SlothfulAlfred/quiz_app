@@ -95,7 +95,9 @@ class FakeApi implements Api {
     int rand = Random().nextInt(5);
     switch (rand) {
       case 0:
-        return LoginResponse(success: true);
+        return LoginResponse(
+          success: false,
+        );
       case 1:
         return LoginResponse(
           success: false,
