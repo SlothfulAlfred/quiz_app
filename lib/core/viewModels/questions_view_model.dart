@@ -116,10 +116,13 @@ class QuestionsViewModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _createAppbar(),
-      body: Navigator(
-        key: QuestionsViewModel.nestedNavKey,
-        onGenerateRoute: nestedGenerateRoute,
-        initialRoute: questionsRouteStart,
+      body: ScaffoldMessenger(
+        key: _snackBar.nestedKey,
+        child: Navigator(
+          key: QuestionsViewModel.nestedNavKey,
+          onGenerateRoute: nestedGenerateRoute,
+          initialRoute: questionsRouteStart,
+        ),
       ),
     );
   }

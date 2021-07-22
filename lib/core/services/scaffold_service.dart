@@ -12,7 +12,14 @@ class ScaffoldService {
   final GlobalKey<ScaffoldMessengerState> key =
       GlobalKey<ScaffoldMessengerState>();
 
+  final GlobalKey<ScaffoldMessengerState> nestedKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   void showSnackBar(SnackBar snackBar) {
     key.currentState!.showSnackBar(snackBar);
+  }
+
+  void showNestedSnackBar(SnackBar snackBar) {
+    nestedKey.currentState!.showSnackBar(snackBar);
   }
 }
