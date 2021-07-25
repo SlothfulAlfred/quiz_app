@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 import 'package:quiz_app/locator.dart';
@@ -20,16 +21,22 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
+    // Preventing [PlatformException] from appeating in [FirebaseApi].
+    // It should be handled from within [FirebaseApi] since it is a
+    // subtype of [Exception] and all [Exception]s are handled there,
+    // but for some reason it still shows up.
+    if (email.isEmpty || password.isEmpty) {
+      return FirebaseAuthException(
+          code: 'empty-field', message: 'One or more fields is empty.');
+    }
     LoginResponse response = await _api.login(email, password);
     if (response.success == true) {
-      // If user is logged in properly, push user info onto
-      // a stream, and return true.
+      // If user is logged in properly, get more user information that
+      // isn't stored in firebase auth (pfp pathway, username, quiz progress),
+      // then push this info onto a stream.
+      var user = await _api.getUserById(response.user!.uid) as Map;
       userStream.add(
-        User(
-          email: response.user!.email!,
-          uid: response.user!.uid,
-          username: response.user!.displayName!,
-        ),
+        User.fromJson(user),
       );
       return true;
     } else if (useFakeData) {
