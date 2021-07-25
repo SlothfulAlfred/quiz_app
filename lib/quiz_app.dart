@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz_app/core/models/api_models.dart' show User;
 import 'package:quiz_app/core/services/authentication.dart';
 import 'package:quiz_app/core/services/navigation_service.dart';
 import 'package:quiz_app/core/services/scaffold_service.dart';
@@ -17,9 +18,9 @@ class QuizApp extends StatelessWidget {
     // the app needs access to this information
     // (Home page, Settings page, Logout page, to name a few).
     // The initial data is null since the user hasn't signed in yet.
-    return StreamProvider(
+    return StreamProvider<User>(
       create: (_) => locator<AuthenticationService>().userStream.stream,
-      initialData: null,
+      initialData: User.anonymous(),
       child: MaterialApp(
         navigatorKey: locator<NavigationService>().navKey,
         scaffoldMessengerKey: locator<ScaffoldService>().key,
