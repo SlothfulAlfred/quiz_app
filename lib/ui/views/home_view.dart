@@ -24,6 +24,7 @@ class HomeView extends StatelessWidget {
                 // Take the quizzes from the model and map them all to [QuizTile]s
                 children: model.quiz
                     .map<QuizTile>((quiz) => QuizTile(
+                          context: context,
                           id: quiz.id,
                           imagePath: quiz.imagePath,
                           title: quiz.title,
