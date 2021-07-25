@@ -8,24 +8,32 @@ class Question {
   final String id;
   final String quizId;
   final String question;
-  final Map<int, Choice> choices;
+  final Map<String, Choice> choices;
 
   UnmodifiableListView<Choice> get choicesList {
-    return UnmodifiableListView(choices.values.toList());
+    List<Choice> temp = [];
+    choices.forEach((_, value) {
+      if (value is Choice) {
+        temp.add(value);
+      }
+    });
+    return UnmodifiableListView(temp);
   }
 
   Question({
     required this.id,
     required this.quizId,
     required this.question,
-    required this.choices,
-  });
+    required Map<String, dynamic> choices,
+  }) : choices =
+            choices.map((_, choice) => MapEntry(_, Choice.fromJson(choice)));
 
   Question.fromjson(DocumentSnapshot json)
       : id = json.id,
         quizId = json['quizId'],
         question = json['question'],
-        choices = json['choices'];
+        choices = json['choices'].map(
+            (_, choice) => MapEntry(_.toString(), Choice.fromJson(choice)));
 }
 
 /// Represents a possible answer for a question.
@@ -39,6 +47,11 @@ class Choice {
     required this.text,
     this.hintText,
   });
+
+  Choice.fromJson(Map json)
+      : isCorrect = json['isCorrect'],
+        text = json['text'],
+        hintText = json['hintText'];
 }
 
 /// Represents a quiz.
@@ -70,21 +83,37 @@ class User {
   final String uid;
   final String username;
   final String email;
-  //final String profilePicturePath;
-  //final Progress progress;
+  final String? profilePicturePath;
+  final Progress progress;
 
   User({
     required this.uid,
     required this.username,
     required this.email,
-    //required this.profilePicturePath,
-    //required this.progress,
+    required this.profilePicturePath,
+    required this.progress,
   });
+
+  /// Creates a User object from a Map.
+  User.fromJson(Map json)
+      : uid = json['uid'],
+        username = json['displayName'],
+        profilePicturePath = json['profilePicture'],
+        progress = Progress(json['progress']),
+        email = json['email'];
+
+  /// Creates an anonymous user.
+  User.anonymous()
+      : uid = '',
+        username = '',
+        email = '',
+        profilePicturePath = '',
+        progress = Progress.none();
 }
 
 /// Represents how far a user has progressed in the quizzes.
 class Progress {
-  final Map<String, Map<String, bool>> _progress;
+  final Map<String, dynamic> _progress;
 
   UnmodifiableMapView get progress => UnmodifiableMapView(_progress);
 
@@ -95,7 +124,7 @@ class Progress {
 /// Utility class to be returned from authentication attempts.
 class LoginResponse {
   final bool success;
-  final fb.FirebaseAuthException? error;
+  final Exception? error;
   final fb.User? user;
 
   LoginResponse({required this.success, this.error, this.user});
