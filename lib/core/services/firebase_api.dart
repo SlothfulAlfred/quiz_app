@@ -40,9 +40,15 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future getUserById(int uid) {
-    // TODO: implement getUserById
-    throw UnimplementedError();
+  Future getUserById(String uid) async {
+    late var result;
+    // Access the users collection, find the document with the correct uid,
+    // retrieve it.
+    var query =
+        await _db.collection('users').where('uid', isEqualTo: uid).get();
+    // Then check if it only has a single document (it should), then return its data.
+    result = query.docs.single.data();
+    return result;
   }
 
   @override
@@ -60,9 +66,12 @@ class FirebaseApi implements Api {
         // Otherwise, return a failing response.
         return LoginResponse(success: false);
       }
-    } on FirebaseAuthException catch (e) {
+    } on Exception catch (e) {
       // If there is an error, return a failing response with error details.
       return LoginResponse(success: false, error: e);
+    } catch (e) {
+      print(e);
+      return LoginResponse(success: false);
     }
   }
 
