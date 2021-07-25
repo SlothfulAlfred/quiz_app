@@ -18,7 +18,8 @@ class ChoicesGrid extends StatelessWidget {
     Key? key,
     required this.choices,
     required this.onChoiceSelect,
-  })   : order = [0, 1, 2, 3]..shuffle(),
+  })   : assert(choices.length == 4),
+        order = [0, 1, 2, 3]..shuffle(),
         super(key: key);
 
   @override
