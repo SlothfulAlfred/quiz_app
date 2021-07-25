@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 
-/// Class to be extended by view models.
+/// Basic functionality of view models.
 ///
 /// Encapsulates the state management aspect of the
 /// view models so that the implmementation of the children
