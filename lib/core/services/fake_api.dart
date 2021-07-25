@@ -14,20 +14,20 @@ class FakeApi implements Api {
         quizId: '0',
         question: 'a sample question?',
         choices: {
-          0: Choice(
+          '0': Choice(
               isCorrect: false,
               hintText: 'Better luck next time',
               text: 'first choice'),
-          1: Choice(
+          '1': Choice(
               isCorrect: false,
               hintText: 'Third time\'s the charm...',
               text: 'second choice'),
-          2: Choice(
+          '2': Choice(
             isCorrect: true,
             hintText: null,
             text: 'corect choice',
           ),
-          3: Choice(
+          '3': Choice(
             isCorrect: false,
             hintText: 'The good thing about rock bottom...',
             text: 'another wrong choice',
@@ -39,20 +39,20 @@ class FakeApi implements Api {
         quizId: '0',
         question: 'another sample question?',
         choices: {
-          0: Choice(
+          '0': Choice(
               isCorrect: false,
               hintText: 'Better luck next time',
               text: 'second first choice'),
-          1: Choice(
+          '1': Choice(
               isCorrect: false,
               hintText: 'Third time\'s the charm...',
               text: 'second second choice'),
-          2: Choice(
+          '2': Choice(
             isCorrect: true,
             hintText: null,
             text: 'second corect choice',
           ),
-          3: Choice(
+          '3': Choice(
             isCorrect: false,
             hintText: 'The good thing about rock bottom...',
             text: 'second another wrong choice',
@@ -83,7 +83,7 @@ class FakeApi implements Api {
   }
 
   @override
-  Future getUserById(int uid) {
+  Future getUserById(String uid) {
     // TODO: implement getUserById
     throw UnimplementedError();
   }
