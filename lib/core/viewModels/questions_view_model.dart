@@ -22,35 +22,6 @@ import 'package:quiz_app/ui/router.dart';
 /// loses track of the quiz progress each time. In exchange for
 /// fixing this problem, this class holds a minimal amount of UI
 /// logic, which is a [Scaffold] and an [AppBar].
-///
-/// I could not think of a way to get around the ViewModel rebuilding
-/// each time a new page was pushed. The ViewModel must be registered
-/// as a [registerFactoryParam] because it needs a unique instance
-/// for each unique quiz. On the other hand, there is no way to
-/// maintain the same instance of the ViewModel between the different
-/// pages in the nested flow. If the consumer/provider logic was put in each
-/// page, it would create a new instance every time. If the consumer/provider
-/// logic was put in the class that held the [Scaffold] and [Navigator], it
-/// could not be passed down to its children.
-
-// TODO: Huge refactor for [QuestionsViewModel].
-// - revert to [QuestionsView] which holds the [Scaffold] and [Navigator].
-// - require a [QuestionsViewModel] parameter for all questionsRoute pages.
-// - In [QuestionsViewModel], pass [this] as an argument during navigation.
-// - Instantiate a [QuestionsViewModel] inside [QuestionsView].
-//
-//     ------------------                -----------------------
-//     | QuestionsView  | -- request --> |  QuestionsViewModel |
-//     | => QuestionsVM | --  nav    --> |                     |
-//     ------------------                -----------------------
-//                                          |
-//                                     passes *this
-//                                          |
-//     ------------- <--- push pages  ------<
-//     |   New     |
-//     | View Page |
-//     -------------
-//
 class QuestionsViewModel extends StatelessWidget {
   final Api _api = locator<Api>();
   // It is okay to set this to static since get_it returns a lazy
@@ -88,6 +59,7 @@ class QuestionsViewModel extends StatelessWidget {
 
   void pushNextQuestion() {
     try {
+      // Tries to push a new question page onto the stack.
       int newIndex = Random().nextInt(questions.length);
       _nav.nestedPushReplacementNamed(
         questionsRouteInProgress,
@@ -96,6 +68,7 @@ class QuestionsViewModel extends StatelessWidget {
           'onChoiceSelected': onChoiceSelected,
         },
       );
+      // removes the question so that it doesn't get repeated.
       questions.removeAt(newIndex);
     } catch (e) {
       // An error has occurred, check if the quiz is completed.
