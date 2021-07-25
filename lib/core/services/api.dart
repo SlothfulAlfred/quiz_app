@@ -27,6 +27,5 @@ abstract class Api {
   //    contain millions or quizzes. It still should be considered though)
   Future? getPhotoFromPath(String url);
 
-  // TODO: consider rmoving this method instead pushing users onto a stream.
-  Future getUserById(int uid);
+  Future getUserById(String uid);
 }
