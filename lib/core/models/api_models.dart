@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart' as fb;
 
 /// Represents a question of a quiz.
 class Question {
-  final String id;
   final String quizId;
   final String question;
   final Map<String, Choice> choices;
@@ -21,19 +20,19 @@ class Question {
   }
 
   Question({
-    required this.id,
     required this.quizId,
     required this.question,
     required Map<String, dynamic> choices,
-  }) : choices =
-            choices.map((_, choice) => MapEntry(_, Choice.fromJson(choice)));
+  }) : choices = choices
+            .map((_, choice) => MapEntry(_.toString(), Choice.fromJson(choice)))
+            .cast<String, Choice>();
 
-  Question.fromjson(DocumentSnapshot json)
-      : id = json.id,
-        quizId = json['quizId'],
+  Question.fromJson(Map json)
+      : quizId = json['quizId'],
         question = json['question'],
-        choices = json['choices'].map(
-            (_, choice) => MapEntry(_.toString(), Choice.fromJson(choice)));
+        choices = json['choices']
+            .map((_, choice) => MapEntry(_.toString(), Choice.fromJson(choice)))
+            .cast<String, Choice>();
 }
 
 /// Represents a possible answer for a question.

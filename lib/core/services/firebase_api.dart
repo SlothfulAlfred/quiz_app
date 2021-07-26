@@ -21,7 +21,7 @@ class FirebaseApi implements Api {
         .get();
     // Accumulate the results in a list then return the list.
     query.docs.forEach((question) {
-      questions.add(Question.fromjson(question));
+      questions.add(Question.fromJson(question as Map));
     });
     return questions;
   }
