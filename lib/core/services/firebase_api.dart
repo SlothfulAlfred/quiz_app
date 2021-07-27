@@ -33,7 +33,7 @@ class FirebaseApi implements Api {
     // in a list. Return the list.
     await _db.collection('quiz').get().then((QuerySnapshot query) {
       query.docs.forEach((doc) {
-        quizzes.add(Quiz.fromJson(doc));
+        quizzes.add(Quiz.fromJson(doc as Map));
       });
     });
     return quizzes;
