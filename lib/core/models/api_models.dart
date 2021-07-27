@@ -69,12 +69,12 @@ class Quiz {
     required this.length,
   });
 
-  Quiz.fromJson(DocumentSnapshot doc)
-      : id = doc.id,
-        title = doc['title'],
-        imagePath = doc['image'],
-        description = doc['description'],
-        length = doc['length'];
+  Quiz.fromJson(Map json)
+      : id = json['id'],
+        title = json['title'],
+        imagePath = json['image'],
+        description = json['description'],
+        length = json['length'];
 }
 
 /// Stores information about a user.
@@ -112,12 +112,12 @@ class User {
 
 /// Represents how far a user has progressed in the quizzes.
 class Progress {
-  final Map<String, dynamic> _progress;
+  final Map<String, Map<String, bool>> _progress;
 
   UnmodifiableMapView get progress => UnmodifiableMapView(_progress);
 
   Progress(this._progress);
-  Progress.none() : _progress = Map();
+  Progress.none() : _progress = Map<String, Map<String, bool>>();
 }
 
 /// Utility class to be returned from authentication attempts.
