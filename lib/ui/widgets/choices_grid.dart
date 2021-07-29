@@ -50,6 +50,9 @@ class _ChoicesTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double sh = MediaQuery.of(context).size.height;
     return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.teal[800]),
+      ),
       onPressed: (choice.isCorrect)
           ? () => onChoiceSelect(choice)
           : () => onChoiceSelect(
@@ -60,7 +63,10 @@ class _ChoicesTile extends StatelessWidget {
                   content: Container(
                     height: sh * 0.10,
                     alignment: Alignment.center,
-                    child: Text(choice.hintText!),
+                    child: Text(
+                      choice.hintText!,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
                   ),
                   backgroundColor: Colors.red[900],
                 ),
@@ -68,7 +74,12 @@ class _ChoicesTile extends StatelessWidget {
       child: Text(
         choice.text,
       ),
-      style: ButtonStyle(
+    );
+  }
+}
+
+/*
+ ButtonStyle(
         padding:
             MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
         elevation: MaterialStateProperty.all(2),
@@ -79,6 +90,4 @@ class _ChoicesTile extends StatelessWidget {
         ),
         // TODO: add custom color behaviour using MaterialStateProperty.resolveWith
       ),
-    );
-  }
-}
+      */
