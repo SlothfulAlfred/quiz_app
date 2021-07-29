@@ -66,19 +66,22 @@ class FakeApi implements Api {
   Future getQuizzes() async {
     await Future.delayed(Duration(seconds: 1));
     List<Quiz> quizzes = [];
-    for (int i = 0; i < 10; i++) {
-      quizzes.add(
-        Quiz(
-          id: i.toString(),
-          title: 'Test Quiz',
-          description:
-              'A fake quiz for testing. longer description so that I can see the fit when the description holds actual content. Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler fliler filler filler filler',
-          length: i,
-          imagePath:
-              'https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0',
-        ),
-      );
-    }
+    quizzes.add(Quiz(
+      id: '0',
+      title: 'fake Quiz 0',
+      imagePath:
+          'https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0',
+      description: 'a fake quiz for testing.',
+      length: 2,
+    ));
+    quizzes.add(Quiz(
+      id: '1',
+      title: 'fake Quiz 1',
+      imagePath:
+          'https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0',
+      description: 'a fake quiz for testing.',
+      length: 2,
+    ));
     return quizzes;
   }
 

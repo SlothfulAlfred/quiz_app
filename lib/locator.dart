@@ -5,7 +5,7 @@ import 'package:quiz_app/core/viewModels/view_models.dart';
 GetIt locator = GetIt.instance;
 
 // Toogle the use of the fake Api
-bool useFakeData = false;
+bool useFakeData = true;
 
 void setupLocator() {
   // Services
