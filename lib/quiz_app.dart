@@ -6,6 +6,7 @@ import 'package:quiz_app/core/services/navigation_service.dart';
 import 'package:quiz_app/core/services/scaffold_service.dart';
 import 'package:quiz_app/ui/router.dart' as router;
 import 'package:quiz_app/ui/routing_constants.dart';
+import 'package:quiz_app/ui/shared/theme.dart';
 
 import 'locator.dart';
 
@@ -22,6 +23,7 @@ class QuizApp extends StatelessWidget {
       create: (_) => locator<AuthenticationService>().userStream.stream,
       initialData: User.anonymous(),
       child: MaterialApp(
+        theme: lightTheme,
         navigatorKey: locator<NavigationService>().navKey,
         scaffoldMessengerKey: locator<ScaffoldService>().key,
         title: 'Quiz App',
