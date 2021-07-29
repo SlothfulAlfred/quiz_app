@@ -27,16 +27,22 @@ class QuestionsViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(question.question),
-          VerticalSpace.large,
-          ChoicesGrid(
-            choices: question.choicesList,
-            onChoiceSelect: onChoiceSelected,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 16, 12, 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              question.question,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            VerticalSpace.large,
+            ChoicesGrid(
+              choices: question.choicesList,
+              onChoiceSelect: onChoiceSelected,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -48,7 +54,10 @@ class QuestionsFinishedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("You've finished this quiz, Hooray!"),
+      child: Text(
+        "You've finished this quiz, Hooray!",
+        style: Theme.of(context).textTheme.headline2,
+      ),
     );
   }
 }

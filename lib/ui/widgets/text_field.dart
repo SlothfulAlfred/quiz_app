@@ -18,10 +18,15 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(
+        color: Colors.blueGrey,
+        fontWeight: FontWeight.w600,
+      ),
       controller: controller,
       focusNode: focus,
       obscureText: isPassword,
       decoration: InputDecoration(
+        border: InputBorder.none,
         errorText: error,
         hintText: isPassword ? 'Password...' : 'someone@somewhere.com',
       ),

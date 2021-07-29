@@ -42,6 +42,7 @@ class QuizView extends StatelessWidget {
                     softWrap: true,
                     // TODO: remember to remove style field when implementing Theme
                     style: TextStyle(
+                      color: Colors.blueGrey,
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
