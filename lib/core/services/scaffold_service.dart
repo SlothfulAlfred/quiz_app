@@ -22,4 +22,21 @@ class ScaffoldService {
   void showNestedSnackBar(SnackBar snackBar) {
     nestedKey.currentState!.showSnackBar(snackBar);
   }
+
+  bool removeCurrentSnackBar() {
+    try {
+      key.currentState!.removeCurrentSnackBar();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Clears all snackbars by calling [removeCurrentSnackBar].
+  void clearSnackBars() {
+    bool shouldContinue = removeCurrentSnackBar();
+    while (shouldContinue) {
+      removeCurrentSnackBar();
+    }
+  }
 }
