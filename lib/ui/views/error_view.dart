@@ -5,10 +5,12 @@ class ErrorView extends StatelessWidget {
     Key? key,
     this.error,
     this.exception,
+    this.undefined,
   }) : super(key: key);
 
   final Error? error;
   final Exception? exception;
+  final bool? undefined;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,22 @@ class ErrorView extends StatelessWidget {
                 width: sw * 0.6,
                 height: sh * 0.4,
               ),
-              Text('Error: $error'),
-              Text('$exception'),
+              if (undefined == false || undefined == null) ...[
+                Text(
+                  'Error: $error',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                Text(
+                  '$exception',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              ],
+              // Displays different text if the route is undefined.
+              if (undefined == true)
+                Text(
+                  'How did you get here?',
+                  style: Theme.of(context).textTheme.headline2,
+                )
             ],
           ),
         ),
