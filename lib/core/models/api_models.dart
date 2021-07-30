@@ -36,6 +36,9 @@ class Question {
 class Choice {
   final bool isCorrect;
   final String text;
+
+  /// The text to be displayed if an incorrect answer is chosen, leave
+  /// null if [isCorrect] is true.
   final String? hintText;
 
   Choice({

@@ -9,8 +9,4 @@ class QuizService {
   Future<List<Quiz>> getQuizzes() async {
     return await _api.getQuizzes();
   }
-
-  Future<List<Question>> getQuestionsForQuiz(String id) async {
-    return await _api.getQuestions(id);
-  }
 }
