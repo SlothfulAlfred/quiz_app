@@ -27,18 +27,29 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       page = QuizView(quiz: quiz);
       break;
 
+    case errorRoute:
+      var args = settings.arguments as Map;
+      page = ErrorView(
+        error: args['error'],
+        exception: args['exception'],
+      );
+      break;
+
     default:
       // Handle nested flow.
       if (settings.name!.startsWith(questionsRoutePrefix)) {
+        // extract arguments
         var args = settings.arguments as Map;
         var quiz = args['quiz'] as Quiz;
-        page = QuestionsViewModel(quiz: quiz);
+        Map<String, bool> progress = args['progress'];
+
+        page = QuestionsViewModel(
+          quiz: quiz,
+          userProgress: progress,
+        );
       } else {
-        // TODO: Return UndefinedRoute
-        var args = settings.arguments! as Map;
-        var error = args['error'] as Error;
         page = ErrorView(
-          error: error,
+          undefined: true,
         );
       }
   }
@@ -81,7 +92,10 @@ Route nestedGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => QuestionsFinishedPage());
 
     default:
-      // TODO: return undefined route.
-      return MaterialPageRoute(builder: (_) => ErrorView());
+      return MaterialPageRoute(
+        builder: (_) => ErrorView(
+          undefined: true,
+        ),
+      );
   }
 }
