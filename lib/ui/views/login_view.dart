@@ -107,14 +107,20 @@ class _LoginViewState extends State<LoginView> {
               ),
               VerticalSpace.small,
               // This is the error text, will not render if there is no error.
-              if (model.error != null)
-                Text(
-                  model.error!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: Theme.of(context).errorColor),
-                ),
+              // The empty text is rendered so that if an error message appears,
+              // it doesn't push down the login button.
+              (model.error != null)
+                  ? Text(
+                      model.error!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: Theme.of(context).errorColor),
+                    )
+                  : Text(
+                      '',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
               VerticalSpace.small,
               // Wraps an [ElevatedButton] to provide a gradient effect.
               DecoratedBox(
