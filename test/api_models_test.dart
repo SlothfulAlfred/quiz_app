@@ -4,13 +4,14 @@ import 'package:test/test.dart';
 void main() {
   group('Question - ', () {
     test('Test Default Constructor', () {
-      var question =
-          Question(quizId: '', question: '', choices: Map<String, dynamic>());
+      var question = Question(
+          quizId: '', id: '', question: '', choices: Map<String, dynamic>());
       expect(question is Question, true);
     });
     test('Testing fromJson Constructor', () {
       Map json = {
         'quizId': '',
+        'id': '',
         'question': '',
         'choices': {
           '0': {
@@ -94,7 +95,7 @@ void main() {
       expect(user is User, true);
       expect(user.email, '');
       expect(user.uid, '');
-      expect(user.progress.progress.isEmpty, true);
+      expect(deepContainsValue(user.progress.progress, true), false);
     });
   });
 
@@ -120,7 +121,7 @@ void main() {
 
     test('Testing None Constructor', () {
       var progress = Progress.none();
-      expect(progress.progress.isEmpty, true);
+      expect(deepContainsValue(progress.progress, true), false);
     });
   });
 
@@ -151,4 +152,30 @@ void main() {
       expect(quiz.title.isNotEmpty, true);
     });
   });
+}
+
+/// [Map.containsValue] is a shallow function, meaning that it doesn't
+/// check whether nested maps contain the given value. This function
+/// has the same effect except it also checks contents of nested maps.
+bool deepContainsValue(Map map, dynamic value) {
+  // Assume that the value is not contained by default.
+  bool result = false;
+  for (var item in map.values) {
+    // If the value is contained, immediately return true.
+    // This prevents the result being overriden later.
+    if (result == true) return true;
+
+    // If the item is a [Map], recursively call the function.
+    // The recursive call isn't returned because this would only check
+    // the first nested map without checking the rest of the Map.
+    if (item is Map) {
+      result = deepContainsValue(item, value);
+    } else if (item == value) {
+      // Another base case, reached if the value hasn't been found and
+      // there is no more nesting.
+      return true;
+    }
+  }
+  // If this has been reached, result will be false.
+  return result;
 }
