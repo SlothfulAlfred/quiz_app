@@ -11,13 +11,11 @@ class QuizViewModel extends BaseModel {
     //_nav.pop();
   }
 
-  void onStartPressed(Quiz quiz, Progress userProgress) {
-    Map<String, bool> progress = userProgress.progress[quiz.id];
+  void onStartPressed(Quiz quiz) {
     _nav.pushNamed(
       questionsRoutePrefix,
       arguments: {
         'quiz': quiz,
-        'progress': progress,
       },
     );
   }

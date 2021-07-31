@@ -41,11 +41,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         // extract arguments
         var args = settings.arguments as Map;
         var quiz = args['quiz'] as Quiz;
-        Map<String, bool> progress = args['progress'];
 
         page = QuestionsViewModel(
           quiz: quiz,
-          userProgress: progress,
         );
       } else {
         page = ErrorView(

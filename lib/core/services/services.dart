@@ -5,3 +5,4 @@ export 'firebase_api.dart';
 export 'navigation_service.dart';
 export 'quiz_service.dart';
 export 'scaffold_service.dart';
+export 'user_service.dart';

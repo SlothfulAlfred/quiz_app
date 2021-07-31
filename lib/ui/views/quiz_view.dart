@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/viewModels/quiz_view_model.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
@@ -53,7 +52,6 @@ class QuizView extends StatelessWidget {
                     onPressed: () {
                       model.onStartPressed(
                         quiz,
-                        Provider.of<User>(context).progress,
                       );
                     },
                     child: Text(
