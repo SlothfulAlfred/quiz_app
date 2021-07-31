@@ -15,7 +15,10 @@ class ScaffoldService {
   final GlobalKey<ScaffoldMessengerState> nestedKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  /// Shows a [SnackBar]. Automatically removes any current
+  /// [SnackBar] Widgets so that only one is visible at any time.
   void showSnackBar(SnackBar snackBar) {
+    key.currentState!.removeCurrentSnackBar();
     key.currentState!.showSnackBar(snackBar);
   }
 
@@ -23,20 +26,7 @@ class ScaffoldService {
     nestedKey.currentState!.showSnackBar(snackBar);
   }
 
-  bool removeCurrentSnackBar() {
-    try {
-      key.currentState!.removeCurrentSnackBar();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  /// Clears all snackbars by calling [removeCurrentSnackBar].
-  void clearSnackBars() {
-    bool shouldContinue = removeCurrentSnackBar();
-    while (shouldContinue) {
-      removeCurrentSnackBar();
-    }
+  void removeCurrentSnackBar() {
+    key.currentState!.removeCurrentSnackBar();
   }
 }
