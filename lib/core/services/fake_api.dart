@@ -10,6 +10,7 @@ class FakeApi implements Api {
     await Future.delayed(Duration(seconds: 1));
     return [
       Question(
+        id: '0',
         quizId: '0',
         question: 'a sample question?',
         choices: {
@@ -34,6 +35,7 @@ class FakeApi implements Api {
         },
       ),
       Question(
+        id: '1',
         quizId: '0',
         question: 'another sample question?',
         choices: {

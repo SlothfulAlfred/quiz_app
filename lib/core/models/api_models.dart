@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fb;
 /// Represents a question of a quiz.
 class Question {
   final String quizId;
+  final String id;
   final String question;
   final Map<String, Choice> choices;
 
@@ -21,11 +22,13 @@ class Question {
   Question({
     required this.quizId,
     required this.question,
+    required this.id,
     required Map<String, dynamic> choices,
   }) : choices = choices.cast<String, Choice>();
 
   Question.fromJson(Map json)
       : quizId = json['quizId'],
+        id = json['id'],
         question = json['question'],
         choices = json['choices']
             .map((_, choice) => MapEntry(_.toString(), Choice.fromJson(choice)))
