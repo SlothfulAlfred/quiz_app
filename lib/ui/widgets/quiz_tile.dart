@@ -1,76 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:quiz_app/ui/shared/ui_helper.dart';
 import 'package:quiz_app/ui/widgets/network_image_hero.dart';
-import 'package:quiz_app/core/models/api_models.dart';
 
 /// Stylized [GridTile] with a translucent header.
 class QuizTile extends StatelessWidget {
   final String id;
   final String title;
   final String? imagePath;
+  final int length;
+  final int completed;
   final VoidCallback onTap;
-  final BuildContext context;
 
   const QuizTile({
     Key? key,
     required this.id,
     required this.onTap,
-    required this.context,
+    required this.length,
     this.title = '',
     this.imagePath,
+    this.completed = 0,
   }) : super(key: key);
 
   @override
-  Widget build(context) {
-    // The number of completed questions.
-    int completed = 0;
-    // The total number of questions.
-    int total = Provider.of<User>(context).progress.progress[id].length;
-    // Calculated the number of completed questions by incrementing [completed]
-    // whenever a question has been answered correctly.
-    Provider.of<User>(context).progress.progress[id].forEach((_, elem) {
-      if (elem == true) completed += 1;
-    });
-
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridTile(
-        child: (imagePath != null && imagePath!.isNotEmpty)
-            ? NetworkImageHero(image: imagePath!, tag: id, onTap: onTap)
-            : Placeholder(),
-        header: Opacity(
-          opacity: 0.75,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(8, 16, 4, 8),
-            color: Colors.black,
-            child: Text(
-              title,
-              style: TextStyle(color: Colors.white),
+      padding: const EdgeInsets.all(8),
+      child: DecoratedBox(
+        // Creates an elevated effect.
+        decoration: BoxDecoration(
+          boxShadow: kElevationToShadow[6],
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            // [ClipRRect] rounds out the corners of the image, this does not
+            // happen automatically because even though the box appears rounded,
+            // it is still actually a normal rectangle in shape, so the [Stack]
+            // doesn't automatically clip its children.
+            ClipRRect(
+              child: (imagePath != null)
+                  ? NetworkImageHero(image: imagePath!, tag: id, onTap: onTap)
+                  : GestureDetector(onTap: onTap, child: Placeholder()),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+              child: Container(
+                width: double.infinity,
+                color: Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    VerticalSpace.extraSmall,
+                    _ProgressBar(length, completed),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProgressBar extends StatelessWidget {
+  final int length;
+  final int completed;
+
+  const _ProgressBar(this.length, this.completed);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 16,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              color: Colors.white,
+              width: 150,
             ),
           ),
-        ),
-        // TODO: add quiz progress in footer
-        footer: Opacity(
-          opacity: 0.75,
-          child: GridTileBar(
-            backgroundColor: Colors.black,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 16,
-                  color: Colors.green,
-                  width: (completed / total) * 130,
-                ),
-                Container(
-                  height: 16,
-                  color: Colors.white,
-                  width: (total - completed) / total * 130,
-                ),
-              ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              color: Colors.tealAccent,
+              width: (completed / length) * 150,
             ),
           ),
-        ),
+        ],
       ),
     );
   }
