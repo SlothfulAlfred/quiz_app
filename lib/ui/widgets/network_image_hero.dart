@@ -36,9 +36,11 @@ class NetworkImageHero extends StatelessWidget {
       height: height ?? null,
       child: GestureDetector(
         onTap: onTap,
-        child: FittedBox(
-          child: Image.network(image),
-          fit: BoxFit.cover,
+        child: SizedBox.expand(
+          child: FittedBox(
+            child: Image.network(image),
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );
