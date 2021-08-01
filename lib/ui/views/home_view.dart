@@ -24,10 +24,11 @@ class HomeView extends StatelessWidget {
                 // Take the quizzes from the model and map them all to [QuizTile]s
                 children: model.quiz
                     .map<QuizTile>((quiz) => QuizTile(
-                          context: context,
                           id: quiz.id,
                           imagePath: quiz.imagePath,
                           title: quiz.title,
+                          length: quiz.length,
+                          completed: model.getCompletedForQuiz(quiz.id),
                           // Anonymous function that  passes the current quiz
                           // to heroTapped. This makes the function is a VoidCallback
                           // and can therefore be used in [GestureDetector] onTap callbacks.
