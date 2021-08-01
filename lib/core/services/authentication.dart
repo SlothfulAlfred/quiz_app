@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
+import 'package:quiz_app/core/services/services.dart';
 import 'package:quiz_app/locator.dart';
 
 class AuthenticationService {
   final Api _api = locator<Api>();
+  final UserService _user = locator<UserService>();
 
-  StreamController<User> userStream = StreamController<User>();
-
-  /// Pushes user onto a stream if logged in succesfully, or returns the appropriate
+  /// Sets current user if logged in succesfully, or returns the appropriate
   /// [FirebaseAuthException] error.
   ///
   /// To maintain the single responsibility principle,
@@ -33,11 +33,9 @@ class AuthenticationService {
     if (response.success == true) {
       // If user is logged in properly, get more user information that
       // isn't stored in firebase auth (pfp pathway, username, quiz progress),
-      // then push this info onto a stream.
+      // then update the info in [UserService].
       var user = await _api.getUserById(response.user!.uid) as Map;
-      userStream.add(
-        User.fromJson(user),
-      );
+      _user.currentUser = User.fromJson(user);
       return true;
     } else if (useFakeData) {
       // TODO: remove this unnecessary check.
