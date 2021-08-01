@@ -24,14 +24,17 @@ class ChoicesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (int num in order) ...[
-          _ChoicesTile(choice: choices[num], onChoiceSelect: onChoiceSelect),
-          VerticalSpace.small
-        ]
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (int num in order) ...[
+            _ChoicesTile(choice: choices[num], onChoiceSelect: onChoiceSelect),
+            VerticalSpace.extraSmall
+          ]
+        ],
+      ),
     );
   }
 }
@@ -51,8 +54,12 @@ class _ChoicesTile extends StatelessWidget {
     double sh = MediaQuery.of(context).size.height;
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.teal[800]),
-      ),
+          backgroundColor:
+              MaterialStateProperty.all(Colors.white.withOpacity(0.90)),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+          side: MaterialStateProperty.all(
+              BorderSide(color: Colors.teal, width: 2))),
       onPressed: (choice.isCorrect)
           ? () => onChoiceSelect(choice)
           : () => onChoiceSelect(
@@ -73,6 +80,7 @@ class _ChoicesTile extends StatelessWidget {
               ),
       child: Text(
         choice.text,
+        style: Theme.of(context).textTheme.headline2!,
       ),
     );
   }
