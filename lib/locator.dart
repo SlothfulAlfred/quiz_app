@@ -22,4 +22,5 @@ void setupLocator() {
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
   locator.registerFactory<HomeViewModel>(() => HomeViewModel());
   locator.registerFactory<QuizViewModel>(() => QuizViewModel());
+  locator.registerFactory<RegistrationViewModel>(() => RegistrationViewModel());
 }
