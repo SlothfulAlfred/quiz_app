@@ -6,6 +6,7 @@ class InputField extends StatelessWidget {
   final FocusNode focus;
   final bool isPassword;
   final String? error;
+  final String? hintText;
 
   const InputField({
     Key? key,
@@ -13,6 +14,7 @@ class InputField extends StatelessWidget {
     required this.focus,
     this.isPassword = false,
     this.error,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,11 @@ class InputField extends StatelessWidget {
       decoration: InputDecoration(
         border: InputBorder.none,
         errorText: error,
-        hintText: isPassword ? 'Password...' : 'someone@somewhere.com',
+        hintText: (hintText == null)
+            ? isPassword
+                ? 'Password...'
+                : 'someone@somewhere.com'
+            : hintText,
       ),
     );
   }
