@@ -50,4 +50,8 @@ class LoginViewModel extends BaseModel {
     // Now that we are done operations, state is no longer busy
     setState(ViewState.idle);
   }
+
+  void createAccount() {
+    _nav.pushNamed(registrationRoute);
+  }
 }
