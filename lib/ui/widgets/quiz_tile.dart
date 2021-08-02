@@ -64,7 +64,7 @@ class QuizTile extends StatelessWidget {
                       ),
                     ),
                     VerticalSpace.extraSmall,
-                    _ProgressBar(length, completed),
+                    ProgressBar(length, completed),
                   ],
                 ),
               ),
@@ -76,11 +76,11 @@ class QuizTile extends StatelessWidget {
   }
 }
 
-class _ProgressBar extends StatelessWidget {
+class ProgressBar extends StatelessWidget {
   final int length;
   final int completed;
 
-  const _ProgressBar(this.length, this.completed);
+  const ProgressBar(this.length, this.completed);
 
   @override
   Widget build(BuildContext context) {
