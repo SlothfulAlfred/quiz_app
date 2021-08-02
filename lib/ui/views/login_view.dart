@@ -156,7 +156,16 @@ class _LoginViewState extends State<LoginView> {
                       ),
                 ),
                 onPressed: () {},
-              )
+              ),
+              TextButton(
+                child: Text(
+                  'Create an account',
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Colors.blueGrey,
+                      ),
+                ),
+                onPressed: model.createAccount,
+              ),
             ],
           ),
         ),
