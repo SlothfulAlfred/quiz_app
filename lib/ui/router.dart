@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/viewModels/questions_view_model.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
-import 'package:quiz_app/ui/views/error_view.dart';
-import 'package:quiz_app/ui/views/home_view.dart';
-import 'package:quiz_app/ui/views/login_view.dart';
-import 'package:quiz_app/ui/views/questions_view.dart';
-import 'package:quiz_app/ui/views/quiz_view.dart';
+import 'package:quiz_app/ui/views/view.dart';
 
 /// Handles all of the route management for the app
 ///
@@ -25,6 +21,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case quizRoute:
       var quiz = settings.arguments as Quiz;
       page = QuizView(quiz: quiz);
+      break;
+
+    case registrationRoute:
+      page = RegistrationView();
       break;
 
     case errorRoute:
