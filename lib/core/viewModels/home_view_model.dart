@@ -24,12 +24,17 @@ class HomeViewModel extends BaseModel {
     setState(ViewState.idle);
   }
 
-  void heroTapped(Quiz quiz) {
+  void heroTapped(Quiz quiz, [void Function()? onReturn]) {
     // Pushes the quiz route and then signals for [HomeView] to
     // rebuild so that the progress bar will be updated.
-    _nav
-        .pushNamed(quizRoute, arguments: quiz)
-        .then((value) => notifyListeners());
+    _nav.pushNamed(quizRoute, arguments: quiz).then((value) {
+      notifyListeners();
+      if (onReturn != null) onReturn();
+    });
+  }
+
+  void openSettings() {
+    _nav.pushNamed(settingsRoute);
   }
 
   int getCompletedForQuiz(String id) {
