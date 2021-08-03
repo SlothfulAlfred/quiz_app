@@ -48,4 +48,13 @@ class AuthenticationService {
       return response.error;
     }
   }
+
+  Future register({required String email, required String password}) async {
+    LoginResponse response = await _api.register(email, password);
+    if (response.success == true) {
+      // TODO: write user to database and update UserService.
+    } else {
+      return response.error;
+    }
+  }
 }
