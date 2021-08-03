@@ -119,10 +119,10 @@ class _RegistrationViewState extends State<RegistrationView> {
                   // Attempts to create an account, business logic handled in
                   // ViewModel.
                   onPressed: () => model.createAccount(
-                    _emailController.text,
-                    _usernameController.text,
-                    _passwordController.text,
-                    _confirmPasswordController.text,
+                    email: _emailController.text,
+                    username: _usernameController.text,
+                    password: _passwordController.text,
+                    confirmed: _confirmPasswordController.text,
                   ),
                   style: ButtonStyle(
                     backgroundColor:
