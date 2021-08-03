@@ -133,4 +133,9 @@ class FakeApi implements Api {
     await Future.delayed(Duration(seconds: 1));
     return "https://firebasestorage.googleapis.com/v0/b/quiz-app-53115.appspot.com/o/flutter_logo.png?alt=media&token=e1342fc0-9d96-46e6-98e4-5b12ed0525a0";
   }
+
+  @override
+  Future register(String email, String password) async {
+    return;
+  }
 }

@@ -80,4 +80,10 @@ class FirebaseApi implements Api {
     var download = await FirebaseStorage.instance.ref(url).getDownloadURL();
     return download;
   }
+
+  @override
+  Future register(String email, String password) {
+    // TODO: implement register
+    throw UnimplementedError();
+  }
 }

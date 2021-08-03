@@ -28,4 +28,6 @@ abstract class Api {
   Future? getPhotoFromPath(String url);
 
   Future getUserById(String uid);
+
+  Future register(String email, String password);
 }
