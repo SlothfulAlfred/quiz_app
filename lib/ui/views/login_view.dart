@@ -166,6 +166,15 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 onPressed: model.createAccount,
               ),
+              TextButton(
+                child: Text(
+                  'Sign in as guest',
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Colors.blueGrey,
+                      ),
+                ),
+                onPressed: model.anonymousSignIn,
+              ),
             ],
           ),
         ),

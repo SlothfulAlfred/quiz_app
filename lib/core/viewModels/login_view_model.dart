@@ -54,4 +54,8 @@ class LoginViewModel extends BaseModel {
   void createAccount() {
     _nav.pushNamed(registrationRoute);
   }
+
+  void anonymousSignIn() {
+    _nav.pushReplacementNamed(homeRoute);
+  }
 }
