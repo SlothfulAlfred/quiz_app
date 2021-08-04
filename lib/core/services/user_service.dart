@@ -16,4 +16,10 @@ class UserService {
   void setQuestionAnswered(String quizId, String questionId) {
     _currentUser.progress.progress[quizId][questionId] = true;
   }
+
+  void updateUserInformation({
+    required String key,
+    required String value,
+    required String uid,
+  }) {}
 }
