@@ -71,19 +71,19 @@ class _RegistrationViewState extends State<RegistrationView> {
                         controller: _emailController,
                         focus: _emailFocus,
                       ),
-                      Divider(),
+                      Divider(height: 2),
                       InputField(
                         controller: _usernameController,
                         focus: _usernameFocus,
                         hintText: 'Username...',
                       ),
-                      Divider(),
+                      Divider(height: 2),
                       InputField(
                         controller: _passwordController,
                         focus: _passwordFocus,
                         isPassword: true,
                       ),
-                      Divider(),
+                      Divider(height: 2),
                       InputField(
                         controller: _confirmPasswordController,
                         focus: _confirmPasswordFocus,
