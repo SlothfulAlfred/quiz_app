@@ -96,6 +96,10 @@ class User {
     required this.progress,
   });
 
+  // Setters
+  set username(String newUsername) => username = newUsername;
+  set profilePicturePath(String? newPic) => profilePicturePath = newPic;
+
   /// Creates a User object from a Map.
   User.fromJson(Map json)
       : uid = json['uid'],
@@ -111,13 +115,23 @@ class User {
         email = '',
         profilePicturePath = '',
         progress = Progress.none();
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'displayName': username,
+      'profilePicture': profilePicturePath,
+      'progress': progress.progress,
+      'email': email,
+    };
+  }
 }
 
 /// Represents how far a user has progressed in the quizzes.
 class Progress {
   final Map<String, Map<String, bool>> _progress;
 
-  UnmodifiableMapView get progress => UnmodifiableMapView(_progress);
+  MapView get progress => MapView<String, Map<String, bool>>(_progress);
 
   Progress(this._progress);
   // TODO: return empty progress based on number of quizzes available in app.
