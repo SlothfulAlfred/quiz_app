@@ -49,10 +49,25 @@ class AuthenticationService {
     }
   }
 
-  Future register({required String email, required String password}) async {
+  Future register({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
     LoginResponse response = await _api.register(email, password);
     if (response.success == true) {
-      // TODO: write user to database and update UserService.
+      // extract uid from newly created [UserCredentials].
+      String uid = response.user!.uid;
+      User newUser = User(
+        email: email,
+        username: username,
+        profilePicturePath: null,
+        uid: uid,
+        progress: Progress.none(),
+      );
+      // Update current user in [UserService] and write user to firestore.
+      _user.currentUser = newUser;
+      _api.writeDocument(document: newUser.toJson(), collection: 'users');
     } else {
       return response.error;
     }

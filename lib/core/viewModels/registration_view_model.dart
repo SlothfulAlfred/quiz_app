@@ -41,7 +41,11 @@ class RegistrationViewModel extends BaseModel {
     String username,
   ) async {
     setState(ViewState.busy);
-    var result = await _auth.register(email: email, password: password);
+    var result = await _auth.register(
+      email: email,
+      password: password,
+      username: username,
+    );
     if (result == true) {
       // pushReplacementNamed is used here so that the user cannot
       // press the back button and return to the login screen.
