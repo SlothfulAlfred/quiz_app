@@ -86,4 +86,18 @@ class FirebaseApi implements Api {
     // TODO: implement register
     throw UnimplementedError();
   }
+
+  @override
+  Future updateUserInfo(
+      {required String key, required String value, required String userId}) {
+    // TODO: implement updateUserInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future writeDocument(
+      {required Map<String, dynamic> document, required String collection}) {
+    // TODO: implement writeDocument
+    throw UnimplementedError();
+  }
 }

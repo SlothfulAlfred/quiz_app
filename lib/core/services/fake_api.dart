@@ -138,4 +138,18 @@ class FakeApi implements Api {
   Future register(String email, String password) async {
     return;
   }
+
+  @override
+  Future updateUserInfo(
+      {required String key, required String value, required String userId}) {
+    // TODO: implement updateUserInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future writeDocument(
+      {required Map<String, dynamic> document, required String collection}) {
+    // TODO: implement writeDocument
+    throw UnimplementedError();
+  }
 }

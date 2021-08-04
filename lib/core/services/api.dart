@@ -30,4 +30,10 @@ abstract class Api {
   Future getUserById(String uid);
 
   Future register(String email, String password);
+
+  Future updateUserInfo(
+      {required String key, required String value, required String userId});
+
+  Future writeDocument(
+      {required Map<String, dynamic> document, required String collection});
 }
