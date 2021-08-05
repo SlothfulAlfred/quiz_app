@@ -27,6 +27,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       page = RegistrationView();
       break;
 
+    case settingsRoute:
+      page = SettingsView();
+      break;
+
     case errorRoute:
       var args = settings.arguments as Map;
       page = ErrorView(
