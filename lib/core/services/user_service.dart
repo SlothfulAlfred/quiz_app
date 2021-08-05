@@ -7,7 +7,11 @@ class UserService {
 
   set currentUser(User newUser) => _currentUser = newUser;
 
-  get progress => _currentUser.progress;
+  Progress get progress => _currentUser.progress;
+  String? get email => _currentUser.email;
+  String? get username => _currentUser.username;
+  String? get profilePicture => _currentUser.profilePicturePath;
+  bool get isAnonymous => _currentUser.uid.isEmpty;
 
   Map<String, bool> getProgressForQuiz(String quizId) {
     return _currentUser.progress.progress[quizId];
