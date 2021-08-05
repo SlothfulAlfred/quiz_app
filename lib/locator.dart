@@ -23,4 +23,5 @@ void setupLocator() {
   locator.registerFactory<HomeViewModel>(() => HomeViewModel());
   locator.registerFactory<QuizViewModel>(() => QuizViewModel());
   locator.registerFactory<RegistrationViewModel>(() => RegistrationViewModel());
+  locator.registerFactory<SettingsViewModel>(() => SettingsViewModel());
 }
