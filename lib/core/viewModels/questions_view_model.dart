@@ -23,6 +23,44 @@ import 'package:quiz_app/ui/router.dart';
 /// loses track of the quiz progress each time. In exchange for
 /// fixing this problem, this class holds a minimal amount of UI
 /// logic, which is a [Scaffold] and an [AppBar].
+///
+/// Another possible solution to this issue would be to "raise the state"
+/// by designing a class to handle the Navigator and contain an instance
+/// of the ViewModel. This class would then pass down a reference to the
+/// ViewModel when pushing the nested routes.
+/// ```dart
+/// class NestedFlow extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) {
+///     return BaseView(
+///       builder: (BuildContext, model, child) => Scaffold(
+///         appBar: _buildAppBar(),
+///         body: Navigator(
+///           ...
+///         ),
+///       ),
+///     );
+///   }
+/// }
+///
+/// Inside the ViewModel
+/// class QuestionsViewModel extends BaseModel {
+///   final NavigationService _nav = locator<NavigationService>();
+///   ...
+///   void pushNextQuestion() {
+///     try {
+///       ...
+///       _nav.nestedPushReplacementNamed(
+///         'route',
+///         arguemnts: {
+///           'model': this,
+///           ...
+///         }
+///       );
+///     }
+///   }
+/// }
+/// ```
 // ignore: must_be_immutable
 class QuestionsViewModel extends StatelessWidget {
   final Api _api = locator<Api>();
