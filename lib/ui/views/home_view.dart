@@ -39,7 +39,6 @@ class _HomeViewState extends State<HomeView> {
           if (model.state == ViewState.idle) {
             return Center(
               child: GridView.count(
-                // TODO: make this grid responsive UI
                 crossAxisCount: 2,
                 physics: BouncingScrollPhysics(),
                 // Take the quizzes from the model and map them all to [QuizTile]s

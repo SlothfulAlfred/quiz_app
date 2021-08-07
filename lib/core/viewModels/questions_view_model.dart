@@ -32,10 +32,12 @@ import 'package:quiz_app/ui/router.dart';
 /// class NestedFlow extends StatelessWidget {
 ///   @override
 ///   Widget build(BuildContext context) {
-///     return BaseView(
+///     return BaseView<QuestionsViewModel, void, void>(
 ///       builder: (BuildContext, model, child) => Scaffold(
 ///         appBar: _buildAppBar(),
 ///         body: Navigator(
+///           onGenerateRoute: model.onGenerateRoute,
+///           key: model.nestedNavKey,
 ///           ...
 ///         ),
 ///       ),
@@ -43,20 +45,36 @@ import 'package:quiz_app/ui/router.dart';
 ///   }
 /// }
 ///
-/// Inside the ViewModel
+/// // Inside the ViewModel
 /// class QuestionsViewModel extends BaseModel {
 ///   final NavigationService _nav = locator<NavigationService>();
 ///   ...
 ///   void pushNextQuestion() {
 ///     try {
-///       ...
+///       // Do something here.
 ///       _nav.nestedPushReplacementNamed(
 ///         'route',
 ///         arguemnts: {
 ///           'model': this,
-///           ...
-///         }
+///           'argumentName': 'whateverOtherArguments',
+///         },
 ///       );
+///     } catch (e) {
+///       // Handle any errors that come up.
+///     }
+///   }
+///
+///   Route<dynamic> onGenerateRoute(RouteSettings settings, {dynamic arguments}) {
+///     switch (settings.name!) {
+///       case 'some route name':
+///         QuestionsViewModel model = arguments['model'];
+///         var whateverOtherArguments = arguments['argumentName'];
+///         return MaterialPageRoute(builder: () => SomeRouteView(
+///           model: model,
+///           otherArgument: whateverOtherArguments,
+///          ),
+///       );
+///       ...
 ///     }
 ///   }
 /// }
