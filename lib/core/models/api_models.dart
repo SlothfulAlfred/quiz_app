@@ -1,6 +1,7 @@
 import 'dart:collection';
 
-import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:quiz_app/core/services/api.dart';
+import 'package:quiz_app/locator.dart';
 
 /// Represents a question of a quiz.
 class Question {
@@ -82,6 +83,24 @@ class Quiz {
 
 /// Stores information about a user.
 class User {
+  static Future<Map<String, Map<String, bool>>> _getEmptyProgress() async {
+    Api _db = locator<Api>();
+    // get the list of existing quizzes.
+    List<Quiz> quizzes = await _db.getQuizzes();
+    Map<String, Map<String, bool>> lengths = {};
+    // For each quiz, get the list of existing questions, accumulate the
+    // questions in a map. Then accumulate those maps in a second map.
+    quizzes.forEach((quiz) async {
+      Map<String, bool> quizProgress = {};
+      List<Question> questions = await _db.getQuestions(quiz.id);
+      questions.forEach((question) {
+        quizProgress[question.id] = false;
+      });
+      lengths[quiz.id] = quizProgress;
+    });
+    return lengths;
+  }
+
   final String uid;
   final String username;
   final String email;
@@ -138,8 +157,8 @@ class Progress {
   // ex. If there are 2 quizzes of length 2, return
   // {
   //   0: {
-  //     0: false,
-  //     1: false,
+  //     0alksdjfljasf: false,
+  //     1aeflkjec: false,
   //    },
   //   1: {
   //    0: false,
@@ -164,9 +183,9 @@ class Progress {
 class LoginResponse {
   final bool success;
   final Exception? error;
-  final fb.User? user;
+  final String? uid;
 
-  LoginResponse({required this.success, this.error, this.user});
+  LoginResponse({required this.success, this.error, this.uid});
 }
 
 /// SAMPLE QUIZ DOCUMENT IN DATABASE
