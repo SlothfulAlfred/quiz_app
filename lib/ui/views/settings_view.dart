@@ -17,6 +17,33 @@ class SettingsView extends StatelessWidget {
       body: BaseView<SettingsViewModel, void, void>(
         builder: (BuildContext c, SettingsViewModel m, Widget? child) {
           if (m.state == ViewState.idle) {
+            // To be displayed under the circular avatar.
+            List<Widget> content;
+            if (m.isAnonymous) {
+              content = [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'You are signed in as a guest. Your progress will not be saved!',
+                    style: Theme.of(context).textTheme.headline6,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ];
+            } else {
+              content = [
+                Text(
+                  m.username,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                VerticalSpace.small,
+                Text(
+                  m.userEmail,
+                  style: Theme.of(context).textTheme.headline2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ];
+            }
             return Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,25 +58,7 @@ class SettingsView extends StatelessWidget {
                     backgroundImage: AssetImage('assets/default_avatar.jpg'),
                   ),
                   VerticalSpace.medium,
-                  if (m.isAnonymous)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'You are signed in as a guest. Your progress will not be saved!',
-                        style: Theme.of(context).textTheme.headline6,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  Text(
-                    m.username,
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  VerticalSpace.small,
-                  Text(
-                    m.userEmail,
-                    style: Theme.of(context).textTheme.headline2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  ...content,
                 ],
               ),
             );
