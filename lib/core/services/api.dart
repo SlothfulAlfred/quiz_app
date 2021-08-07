@@ -2,38 +2,38 @@ import 'package:quiz_app/core/models/api_models.dart';
 
 /// Interface for interaction with Firebase services
 abstract class Api {
+  /// Attempts to authenticate a user, returns a [LoginResponse] with
+  /// the error in event of failure.
   Future<LoginResponse> login(String email, String password);
 
+  /// Return a list of existing [Quiz] objects.
   Future getQuizzes();
 
+  /// Return a list of [Question] objects associated with [quizId].
   Future getQuestions(String quizId);
 
-  // TODO: remove this method due to changes in data structure
-  // This method might have been needed since the plan was to store
-  // a short string as the imagePath for the quizzes, which would act
-  // as an identifier to search Cloud Storage for the image, however
-  // it is better to just store the entire Cloud Storage link in the
-  // database.
-  //
-  // Benefits of this method are:
-  // - Less calls to Cloud Storage
-  // - Faster load time since images are retrieved directly
-  //   (instead of getting the link then retrieving it)
-  //
-  // Detriments of this method are:
-  // - Much harder to change the storage location in the future
-  // - Slightly more data on the database (this isn't a realistic issue for
-  //    an app of this scale, but it might be an issue if it was scaled up to
-  //    contain millions or quizzes. It still should be considered though)
   Future? getPhotoFromPath(String url);
 
+  /// Return information about a user as a [Map].
   Future getUserById(String uid);
 
-  Future register(String email, String password);
+  /// Attempt to register a new user, returns the corresponding error
+  /// in event of failure.
+  Future<LoginResponse> register(
+    String email,
+    String password,
+  );
 
-  Future updateUserInfo(
-      {required String key, required String value, required String userId});
+  /// Updates a field of a user's information on Firestore.
+  Future updateUserInfo({
+    required String key,
+    required String value,
+    required String userId,
+  });
 
-  Future writeDocument(
-      {required Map<String, dynamic> document, required String collection});
+  /// Writes a new document to Firestore.
+  Future writeDocument({
+    required Map<String, dynamic> document,
+    required String collection,
+  });
 }
