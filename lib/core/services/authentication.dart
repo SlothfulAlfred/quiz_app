@@ -34,13 +34,8 @@ class AuthenticationService {
       // If user is logged in properly, get more user information that
       // isn't stored in firebase auth (pfp pathway, username, quiz progress),
       // then update the info in [UserService].
-      var user = await _api.getUserById(response.user!.uid) as Map;
+      var user = await _api.getUserById(response.uid!) as Map;
       _user.currentUser = User.fromJson(user);
-      return true;
-    } else if (useFakeData) {
-      // TODO: remove this unnecessary check.
-      // Just for testing purposes since it's impossible to return
-      // a [UserCredential] from [FakeApi].
       return true;
     } else {
       // Returns the error so that the ViewModel can handle it
@@ -57,7 +52,7 @@ class AuthenticationService {
     LoginResponse response = await _api.register(email, password);
     if (response.success == true) {
       // extract uid from newly created [UserCredentials].
-      String uid = response.user!.uid;
+      String uid = response.uid!;
       User newUser = User(
         email: email,
         username: username,
@@ -67,7 +62,8 @@ class AuthenticationService {
       );
       // Update current user in [UserService] and write user to firestore.
       _user.currentUser = newUser;
-      _api.writeDocument(document: newUser.toJson(), collection: 'users');
+      await _api.writeDocument(document: newUser.toJson(), collection: 'users');
+      return true;
     } else {
       return response.error;
     }
