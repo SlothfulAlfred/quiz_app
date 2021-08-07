@@ -88,9 +88,15 @@ class FakeApi implements Api {
   }
 
   @override
-  Future getUserById(String uid) {
-    // TODO: implement getUserById
-    throw UnimplementedError();
+  Future getUserById(String uid) async {
+    await Future.delayed(Duration(seconds: 1));
+    return {
+      'uid': uid,
+      'progress': Progress.none(),
+      'profilePicture': '',
+      'username': 'Tester McTest',
+      'email': 'testing@testing.com',
+    };
   }
 
   @override
@@ -101,7 +107,8 @@ class FakeApi implements Api {
     switch (rand) {
       case 0:
         return LoginResponse(
-          success: false,
+          success: true,
+          uid: '0',
         );
       case 1:
         return LoginResponse(
@@ -135,21 +142,26 @@ class FakeApi implements Api {
   }
 
   @override
-  Future register(String email, String password) async {
+  Future<LoginResponse> register(String email, String password) async {
+    return LoginResponse(success: true, uid: '0');
+  }
+
+  @override
+  Future updateUserInfo({
+    required String key,
+    required String value,
+    required String userId,
+  }) async {
+    await Future.delayed(Duration(seconds: 1));
     return;
   }
 
   @override
-  Future updateUserInfo(
-      {required String key, required String value, required String userId}) {
-    // TODO: implement updateUserInfo
-    throw UnimplementedError();
-  }
-
-  @override
-  Future writeDocument(
-      {required Map<String, dynamic> document, required String collection}) {
-    // TODO: implement writeDocument
-    throw UnimplementedError();
+  Future writeDocument({
+    required Map<String, dynamic> document,
+    required String collection,
+  }) async {
+    await Future.delayed(Duration(seconds: 1));
+    return;
   }
 }

@@ -61,7 +61,7 @@ class FirebaseApi implements Api {
       );
       if (result.user != null) {
         // If the resulting user is not null, return a successful response.
-        return LoginResponse(success: true, user: result.user);
+        return LoginResponse(success: true, uid: result.user!.uid);
       } else {
         // Otherwise, return a failing response.
         return LoginResponse(success: false);
@@ -70,7 +70,6 @@ class FirebaseApi implements Api {
       // If there is an error, return a failing response with error details.
       return LoginResponse(success: false, error: e);
     } catch (e) {
-      print(e);
       return LoginResponse(success: false);
     }
   }
@@ -82,22 +81,32 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future register(String email, String password) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<LoginResponse> register(String email, String password) async {
+    try {
+      var result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return LoginResponse(success: true, uid: result.user!.uid);
+    } on FirebaseAuthException catch (e) {
+      return LoginResponse(success: false, error: e);
+    }
   }
 
   @override
-  Future updateUserInfo(
-      {required String key, required String value, required String userId}) {
-    // TODO: implement updateUserInfo
-    throw UnimplementedError();
+  Future updateUserInfo({
+    required String key,
+    required String value,
+    required String userId,
+  }) async {
+    var user = _db.collection('users').doc(userId);
+    await user.update({key: value});
   }
 
   @override
-  Future writeDocument(
-      {required Map<String, dynamic> document, required String collection}) {
-    // TODO: implement writeDocument
-    throw UnimplementedError();
+  Future writeDocument({
+    required Map<String, dynamic> document,
+    required String collection,
+  }) async {
+    CollectionReference collectionRef = _db.collection(collection);
+    await collectionRef.add(document);
   }
 }
