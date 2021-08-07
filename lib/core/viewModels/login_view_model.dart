@@ -1,4 +1,6 @@
+import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/authentication.dart';
+import 'package:quiz_app/core/services/user_service.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
@@ -9,6 +11,7 @@ import 'base_model.dart';
 class LoginViewModel extends BaseModel {
   AuthenticationService _auth = locator<AuthenticationService>();
   NavigationService _nav = locator<NavigationService>();
+  UserService _user = locator<UserService>();
 
   /// The error message that should be displayed, if it exists.
   /// i.e. 'email or password is incorrect'
@@ -56,6 +59,10 @@ class LoginViewModel extends BaseModel {
   }
 
   void anonymousSignIn() {
+    // Resets the current user to a new anonymous user. This is so that
+    // if a user is signed in anonymously, then navigates to the login page,
+    // and signs in anonymously again, the progress will be reset.
+    _user.currentUser = User.anonymous();
     _nav.pushReplacementNamed(homeRoute);
   }
 }
