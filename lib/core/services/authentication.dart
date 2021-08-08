@@ -68,4 +68,9 @@ class AuthenticationService {
       return response.error;
     }
   }
+
+  Future logout() async {
+    await _api.logout();
+    _user.currentUser = User.anonymous();
+  }
 }
