@@ -38,11 +38,7 @@ class HomeViewModel extends BaseModel {
   }
 
   int getCompletedForQuiz(String id) {
-    int completed = 0;
     var quizProgress = _user.getProgressForQuiz(id);
-    for (bool isAnswered in quizProgress.values) {
-      if (isAnswered) completed++;
-    }
-    return completed;
+    return quizProgress.length;
   }
 }

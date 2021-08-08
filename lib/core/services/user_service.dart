@@ -1,4 +1,6 @@
 import 'package:quiz_app/core/models/api_models.dart';
+import 'package:quiz_app/core/services/api.dart';
+import 'package:quiz_app/locator.dart';
 
 /// Wrapper that allows the current user to be accessed from outside of
 /// the main app without a [BuildContext].
@@ -13,17 +15,33 @@ class UserService {
   String? get profilePicture => _currentUser.profilePicturePath;
   bool get isAnonymous => _currentUser.uid.isEmpty;
 
-  Map<String, bool> getProgressForQuiz(String quizId) {
-    return _currentUser.progress.progress[quizId];
+  /// Returns a list of completed question ID's for the current user.
+  List<String> getProgressForQuiz(String quizId) {
+    var progress = _currentUser.progress.progress;
+    if (progress.containsKey(quizId)) {
+      return progress[quizId]!;
+    }
+    return <String>[];
   }
 
   void setQuestionAnswered(String quizId, String questionId) {
-    _currentUser.progress.progress[quizId][questionId] = true;
+    var progress = _currentUser.progress.progress;
+    if (progress.containsKey(quizId)) {
+      progress[quizId]!.add(questionId);
+    } else {
+      progress[quizId] = [questionId];
+    }
   }
 
+  /// Updates the key-value pair of a user with the given uid.
   void updateUserInformation({
     required String key,
     required String value,
     required String uid,
-  }) {}
+  }) {
+    _api.updateUserInfo(key: key, value: value, userId: uid);
+  }
+
+  // Private interface
+  final Api _api = locator<Api>();
 }
