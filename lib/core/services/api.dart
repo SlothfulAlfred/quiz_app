@@ -6,6 +6,9 @@ abstract class Api {
   /// the error in event of failure.
   Future<LoginResponse> login(String email, String password);
 
+  /// Signs out the current user.
+  Future logout();
+
   /// Return a list of existing [Quiz] objects.
   Future getQuizzes();
 

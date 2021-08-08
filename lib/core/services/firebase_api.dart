@@ -109,4 +109,9 @@ class FirebaseApi implements Api {
     CollectionReference collectionRef = _db.collection(collection);
     await collectionRef.add(document);
   }
+
+  @override
+  Future logout() async {
+    await _auth.signOut();
+  }
 }

@@ -94,7 +94,7 @@ class FakeApi implements Api {
       'uid': uid,
       'progress': Progress.none(),
       'profilePicture': '',
-      'username': 'Tester McTest',
+      'displayName': 'Tester McTest',
       'email': 'testing@testing.com',
     };
   }
@@ -161,6 +161,12 @@ class FakeApi implements Api {
     required Map<String, dynamic> document,
     required String collection,
   }) async {
+    await Future.delayed(Duration(seconds: 1));
+    return;
+  }
+
+  @override
+  Future logout() async {
     await Future.delayed(Duration(seconds: 1));
     return;
   }
