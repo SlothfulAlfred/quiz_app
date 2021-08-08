@@ -29,6 +29,11 @@ class RegistrationViewModel extends BaseModel {
   }) async {
     if (password != confirmed) {
       setErrorMessage("Passwords don't match.");
+    } else if (email.isEmpty ||
+        username.isEmpty ||
+        password.isEmpty ||
+        confirmed.isEmpty) {
+      setErrorMessage('One or more fields are empty.');
     } else {
       await _register(email, password, username);
     }
