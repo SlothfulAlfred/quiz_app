@@ -73,21 +73,14 @@ void main() {
         'displayName': '',
         'profilePicture': '',
         'progress': {
-          '0': {
-            '0': true,
-            '1': true,
-            '2': true,
-            '3': false,
-          },
-          '1': {
-            '0': false,
-            '1': false,
-          },
+          '0': ['1', '2', '3'],
+          '1': <String>[],
         },
       };
       var user = User.fromJson(json);
       expect(user is User, true);
-      expect(user.progress.progress['0']['0'], true);
+      expect(user.progress.progress['0']!.contains('3'), true);
+      expect(user.progress.progress.containsKey('abcdefg'), false);
     });
 
     test('Testing Anonymous Constructor', () {
@@ -95,33 +88,25 @@ void main() {
       expect(user is User, true);
       expect(user.email, '');
       expect(user.uid, '');
-      expect(deepContainsValue(user.progress.progress, true), false);
+      expect(user.progress.progress.isEmpty, true);
     });
   });
 
   group('Progress - ', () {
     test('Testing Default Constructor', () {
       var json = {
-        '0': {
-          '0': true,
-          '1': true,
-          '2': true,
-          '3': false,
-        },
-        '1': {
-          '0': false,
-          '1': false,
-        },
+        '0': <String>['0', '1'],
+        '1': <String>[],
       };
       var progress = Progress(json);
       expect(progress is Progress, true);
-      expect(progress.progress['0']['0'], true);
-      expect(progress.progress['1']['0'], false);
+      expect(progress.progress['0']!.contains('0'), true);
+      expect(progress.progress['1']!.contains('0'), false);
     });
 
     test('Testing None Constructor', () {
       var progress = Progress.none();
-      expect(deepContainsValue(progress.progress, true), false);
+      expect(progress.progress.isEmpty, true);
     });
   });
 
@@ -152,30 +137,4 @@ void main() {
       expect(quiz.title.isNotEmpty, true);
     });
   });
-}
-
-/// [Map.containsValue] is a shallow function, meaning that it doesn't
-/// check whether nested maps contain the given value. This function
-/// has the same effect except it also checks contents of nested maps.
-bool deepContainsValue(Map map, dynamic value) {
-  // Assume that the value is not contained by default.
-  bool result = false;
-  for (var item in map.values) {
-    // If the value is contained, immediately return true.
-    // This prevents the result being overriden later.
-    if (result == true) return true;
-
-    // If the item is a [Map], recursively call the function.
-    // The recursive call isn't returned because this would only check
-    // the first nested map without checking the rest of the Map.
-    if (item is Map) {
-      result = deepContainsValue(item, value);
-    } else if (item == value) {
-      // Another base case, reached if the value hasn't been found and
-      // there is no more nesting.
-      return true;
-    }
-  }
-  // If this has been reached, result will be false.
-  return result;
 }
