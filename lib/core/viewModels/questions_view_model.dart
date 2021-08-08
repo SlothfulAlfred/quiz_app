@@ -1,13 +1,15 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show GlobalKey, SnackBar;
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/api.dart';
 import 'package:quiz_app/core/services/navigation_service.dart';
 import 'package:quiz_app/core/services/scaffold_service.dart';
-import 'package:quiz_app/core/services/services.dart';
+import 'package:quiz_app/core/services/user_service.dart';
+import 'package:quiz_app/core/viewModels/base_model.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
-import 'package:quiz_app/ui/router.dart';
+
+// TODO: update documentation.
 
 /// A hybrid class handling quiz questions containing
 /// mostly business logic but some UI logic.
@@ -79,15 +81,7 @@ import 'package:quiz_app/ui/router.dart';
 ///   }
 /// }
 /// ```
-// ignore: must_be_immutable
-class QuestionsViewModel extends StatelessWidget {
-  final Api _api = locator<Api>();
-  // It is okay to set this to static since get_it returns a lazy
-  // singleton anyway so it is always the same instance.
-  static final NavigationService _nav = locator<NavigationService>();
-  final ScaffoldService _snackBar = locator<ScaffoldService>();
-  final UserService _user = locator<UserService>();
-
+class QuestionsViewModel extends BaseModel {
   late final List<Question> questions;
 
   /// Keeps track of indices of [questions] that house unanswered
@@ -104,23 +98,14 @@ class QuestionsViewModel extends StatelessWidget {
     _onInit(quiz.id);
   }
 
-  static get nestedNavKey => _nav.nestedNavKey;
+  // Getters
+  GlobalKey get nestedNavKey => _nav.nestedNavKey;
+  GlobalKey get nestedScaffoldKey => _snackBar.nestedKey;
 
-  void _onInit(String id) async {
-    questions = await _api.getQuestions(id);
-    _filterAnswered();
-
-    // Checks if the quiz is already completed
-    if (_choosable.length == 0) {
-      _completeQuiz();
-      return;
-    }
-    pushNextQuestion();
-  }
+  // Public Interface
 
   void pushNextQuestion() {
-    _snackBar.removeCurrentSnackBar();
-
+    removeSnackBar();
     try {
       // Tries to push a new question page onto the stack and
       // keep track of the question if succesfully pushed.
@@ -146,21 +131,41 @@ class QuestionsViewModel extends StatelessWidget {
     }
   }
 
+  void onChoiceSelected(Choice choice, [SnackBar? snackBar]) {
+    if (choice.isCorrect) {
+      _markCorrect(currentQuestionIndex!);
+      pushNextQuestion();
+    } else {
+      _snackBar.showSnackBar(snackBar!);
+    }
+  }
+
+  /// Removes the current [SnackBar] being shown
+  void removeSnackBar() {
+    _snackBar.removeCurrentSnackBar();
+  }
+
+  /// Clears the screen of [SnackBar]s and pops the route.
+  void onAppBarBackPress() {
+    removeSnackBar();
+    _nav.pop();
+  }
+
+  // Private details
+
+  final Api _api = locator<Api>();
+  final NavigationService _nav = locator<NavigationService>();
+  final ScaffoldService _snackBar = locator<ScaffoldService>();
+  final UserService _user = locator<UserService>();
+
   /// Adds the indices of all unanswered questions to [_choosable].
   void _filterAnswered() {
-    // questionIndex is needed since the user progress is stored
-    // as a map of quiz ids to bools. The quiz id is a long randomly
-    // generated string, so it can't be used to index a list. However,
-    // the questions will be in the same order as is returned from
-    // [Api.getQuestions()].
-    int questionIndex = 0;
-    Map<String, bool> progress = _user.getProgressForQuiz(quiz.id);
-    progress.forEach((id, isAnswered) {
-      if (!isAnswered) {
-        _choosable.add(questionIndex);
-      }
-      questionIndex++;
-    });
+    List<String> progress = _user.getProgressForQuiz(quiz.id);
+    // Populating [_choosable].
+    for (int i = 0; i < questions.length; i++) {
+      if (progress.contains(questions[i].id)) continue;
+      _choosable.add(i);
+    }
   }
 
   /// Updates the user progress so that is persists even after
@@ -177,41 +182,15 @@ class QuestionsViewModel extends StatelessWidget {
     _nav.nestedPushReplacementNamed(questionsRouteFinished);
   }
 
-  void onChoiceSelected(Choice choice, [SnackBar? snackBar]) {
-    if (choice.isCorrect) {
-      _markCorrect(currentQuestionIndex!);
-      pushNextQuestion();
-    } else {
-      _snackBar.showSnackBar(snackBar!);
+  void _onInit(String id) async {
+    questions = await _api.getQuestions(id);
+    _filterAnswered();
+
+    // Checks if the quiz is already completed
+    if (_choosable.length == 0) {
+      _completeQuiz();
+      return;
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _createAppbar(),
-      body: ScaffoldMessenger(
-        key: _snackBar.nestedKey,
-        child: Navigator(
-          key: QuestionsViewModel.nestedNavKey,
-          onGenerateRoute: nestedGenerateRoute,
-          initialRoute: questionsRouteStart,
-        ),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _createAppbar() {
-    return AppBar(
-      title: Text(quiz.title),
-      leading: IconButton(
-        icon: Icon(Icons.chevron_left),
-        onPressed: () {
-          // Clears snackbars so that they don't render on other pages.
-          _snackBar.removeCurrentSnackBar();
-          _nav.pop();
-        },
-      ),
-    );
+    pushNextQuestion();
   }
 }

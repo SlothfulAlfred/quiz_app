@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:quiz_app/core/services/services.dart';
 import 'package:quiz_app/core/viewModels/view_models.dart';
 
+import 'core/models/api_models.dart' show Quiz;
+
 GetIt locator = GetIt.instance;
 
 // Toogle the use of the fake Api
@@ -31,4 +33,6 @@ void setupLocator() {
   locator.registerFactory<QuizViewModel>(() => QuizViewModel());
   locator.registerFactory<RegistrationViewModel>(() => RegistrationViewModel());
   locator.registerFactory<SettingsViewModel>(() => SettingsViewModel());
+  locator.registerFactoryParam<QuestionsViewModel, Quiz, void>(
+      (quiz, _) => QuestionsViewModel(quiz: quiz!));
 }

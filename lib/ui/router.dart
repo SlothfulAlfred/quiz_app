@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
-import 'package:quiz_app/core/viewModels/questions_view_model.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
 import 'package:quiz_app/ui/views/view.dart';
 
@@ -46,9 +45,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         var args = settings.arguments as Map;
         var quiz = args['quiz'] as Quiz;
 
-        page = QuestionsViewModel(
-          quiz: quiz,
-        );
+        page = QuestionsView(quiz: quiz);
       } else {
         page = ErrorView(
           undefined: true,
@@ -78,7 +75,7 @@ Route nestedGenerateRoute(RouteSettings settings) {
           var begin = Offset(0.0, 2.0);
           var end = Offset.zero;
           var tween = Tween(begin: begin, end: end).chain(
-            CurveTween(curve: Curves.easeOut),
+            CurveTween(curve: Curves.easeInOut),
           );
           return SlideTransition(
             child: child,
