@@ -38,6 +38,7 @@ class NetworkImageHero extends StatelessWidget {
         onTap: onTap,
         child: SizedBox.expand(
           child: FittedBox(
+            // TODO: Wrap in [FadeInImage].
             child: Image.network(image),
             fit: BoxFit.contain,
           ),

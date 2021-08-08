@@ -15,11 +15,11 @@ class SettingsView extends StatelessWidget {
         ),
       ),
       body: BaseView<SettingsViewModel, void, void>(
-        builder: (BuildContext c, SettingsViewModel m, Widget? child) {
-          if (m.state == ViewState.idle) {
+        builder: (BuildContext c, SettingsViewModel model, Widget? child) {
+          if (model.state == ViewState.idle) {
             // To be displayed under the circular avatar.
             List<Widget> content;
-            if (m.isAnonymous) {
+            if (model.isAnonymous) {
               content = [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -29,19 +29,35 @@ class SettingsView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
+                VerticalSpace.medium,
+                TextButton(
+                  child: Text(
+                    'Sign In',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  onPressed: model.logout,
+                )
               ];
             } else {
               content = [
                 Text(
-                  m.username,
+                  model.username,
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 VerticalSpace.small,
                 Text(
-                  m.userEmail,
+                  model.userEmail,
                   style: Theme.of(context).textTheme.headline2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                VerticalSpace.medium,
+                TextButton(
+                  child: Text(
+                    'Sign Out',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  onPressed: model.logout,
+                )
               ];
             }
             return Center(
@@ -54,7 +70,8 @@ class SettingsView extends StatelessWidget {
                     // then falls back to [backgroundImage]. If [userImagePath]
                     // returns an empty string, the loading will fail and a default
                     // image will be loaded.
-                    foregroundImage: NetworkImage(m.userImagePath),
+                    // TODO: Wrap in [FadeInImage].
+                    foregroundImage: NetworkImage(model.userImagePath),
                     backgroundImage: AssetImage('assets/default_avatar.jpg'),
                   ),
                   VerticalSpace.medium,
