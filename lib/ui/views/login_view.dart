@@ -3,6 +3,7 @@ import 'package:quiz_app/core/viewModels/login_view_model.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
+import 'package:quiz_app/ui/widgets/gradient_button.dart';
 import 'package:quiz_app/ui/widgets/text_field.dart';
 
 class LoginView extends StatefulWidget {
@@ -123,28 +124,12 @@ class _LoginViewState extends State<LoginView> {
                     ),
               VerticalSpace.small,
               // Wraps an [ElevatedButton] to provide a gradient effect.
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.tealAccent,
-                      Colors.pinkAccent,
-                    ],
-                  ),
-                ),
-                child: ElevatedButton(
-                  onPressed: () =>
-                      model.login(_emailText.text, _passwordText.text),
-                  child: Text(
-                    "Login",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    minimumSize: Size.fromHeight(50),
-                  ),
+              GradientButton(
+                onPressed: () =>
+                    model.login(_emailText.text, _passwordText.text),
+                child: Text(
+                  "Login",
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               VerticalSpace.small,

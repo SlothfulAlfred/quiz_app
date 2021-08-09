@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/core/viewModels/registration_view_model.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
+import 'package:quiz_app/ui/widgets/gradient_button.dart';
 import 'package:quiz_app/ui/widgets/text_field.dart';
 
 class RegistrationView extends StatefulWidget {
@@ -108,27 +109,16 @@ class _RegistrationViewState extends State<RegistrationView> {
                   : Text('', style: TextStyle(fontSize: 16)),
               VerticalSpace.small,
               // Create Account button.
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient:
-                      LinearGradient(colors: [Colors.tealAccent, Colors.pink]),
-                  borderRadius: BorderRadius.circular(16),
+              GradientButton(
+                onPressed: () => model.createAccount(
+                  email: _emailController.text,
+                  username: _usernameController.text,
+                  password: _passwordController.text,
+                  confirmed: _confirmPasswordController.text,
                 ),
-                child: ElevatedButton(
-                  child: Text('Create Account', style: TextStyle(fontSize: 24)),
-                  // Attempts to create an account, business logic handled in
-                  // ViewModel.
-                  onPressed: () => model.createAccount(
-                    email: _emailController.text,
-                    username: _usernameController.text,
-                    password: _passwordController.text,
-                    confirmed: _confirmPasswordController.text,
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
-                  ),
+                child: Text(
+                  'Create Account',
+                  style: TextStyle(fontSize: 24),
                 ),
               ),
             ],
