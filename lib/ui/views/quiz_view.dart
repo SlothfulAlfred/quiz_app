@@ -18,7 +18,9 @@ class QuizView extends StatelessWidget {
     double sw = MediaQuery.of(context).size.width;
     double sh = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(quiz.title),
+      ),
       body: BaseView(
         builder: (BuildContext context, QuizViewModel model, Widget? _) =>
             Column(
