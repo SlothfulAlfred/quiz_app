@@ -51,8 +51,13 @@ class QuizTile extends StatelessWidget {
                 bottomRight: Radius.circular(16),
               ),
               child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [Colors.black, Colors.black38],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter),
+                ),
                 width: double.infinity,
-                color: Colors.black87,
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
