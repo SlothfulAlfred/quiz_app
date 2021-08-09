@@ -77,8 +77,14 @@ Route nestedGenerateRoute(RouteSettings settings) {
           var tween = Tween(begin: begin, end: end).chain(
             CurveTween(curve: Curves.easeInOut),
           );
+          var opacityTween = Tween<double>(begin: 0.0, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeInOut));
+
           return SlideTransition(
-            child: child,
+            child: FadeTransition(
+              child: child,
+              opacity: opacityTween.animate(animation),
+            ),
             position: tween.animate(animation),
           );
         },
