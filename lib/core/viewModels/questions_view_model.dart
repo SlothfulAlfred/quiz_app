@@ -9,78 +9,9 @@ import 'package:quiz_app/core/viewModels/base_model.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
 
-// TODO: update documentation.
-
-/// A hybrid class handling quiz questions containing
-/// mostly business logic but some UI logic.
-///
-/// This class doesn't conform to the MVVM architecture
-/// nor does it strictly fit the single-responsibility principle.
-/// However, I think this is the best design option.
-///
-/// Trying to separate the ViewModel's business logic from the
-/// View's UI logic lead to the issue of the ViewModel rebuilding
-/// every time a new page was pushed. This is obviously a
-/// problem because it makes many unnecessary API calls and
-/// loses track of the quiz progress each time. In exchange for
-/// fixing this problem, this class holds a minimal amount of UI
-/// logic, which is a [Scaffold] and an [AppBar].
-///
-/// Another possible solution to this issue would be to "raise the state"
-/// by designing a class to handle the Navigator and contain an instance
-/// of the ViewModel. This class would then pass down a reference to the
-/// ViewModel when pushing the nested routes.
-/// ```dart
-/// class NestedFlow extends StatelessWidget {
-///   @override
-///   Widget build(BuildContext context) {
-///     return BaseView<QuestionsViewModel, void, void>(
-///       builder: (BuildContext, model, child) => Scaffold(
-///         appBar: _buildAppBar(),
-///         body: Navigator(
-///           onGenerateRoute: model.onGenerateRoute,
-///           key: model.nestedNavKey,
-///           ...
-///         ),
-///       ),
-///     );
-///   }
-/// }
-///
-/// // Inside the ViewModel
-/// class QuestionsViewModel extends BaseModel {
-///   final NavigationService _nav = locator<NavigationService>();
-///   ...
-///   void pushNextQuestion() {
-///     try {
-///       // Do something here.
-///       _nav.nestedPushReplacementNamed(
-///         'route',
-///         arguemnts: {
-///           'model': this,
-///           'argumentName': 'whateverOtherArguments',
-///         },
-///       );
-///     } catch (e) {
-///       // Handle any errors that come up.
-///     }
-///   }
-///
-///   Route<dynamic> onGenerateRoute(RouteSettings settings, {dynamic arguments}) {
-///     switch (settings.name!) {
-///       case 'some route name':
-///         QuestionsViewModel model = arguments['model'];
-///         var whateverOtherArguments = arguments['argumentName'];
-///         return MaterialPageRoute(builder: () => SomeRouteView(
-///           model: model,
-///           otherArgument: whateverOtherArguments,
-///          ),
-///       );
-///       ...
-///     }
-///   }
-/// }
-/// ```
+/// ViewModel that manages all business logic for [QuestionsView]. This
+/// includes which questions should be displayed and which actions to take
+/// when a question is answered.
 class QuestionsViewModel extends BaseModel {
   late final List<Question> questions;
 
