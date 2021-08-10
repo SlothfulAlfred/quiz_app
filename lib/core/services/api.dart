@@ -39,4 +39,7 @@ abstract class Api {
     required Map<String, dynamic> document,
     required String collection,
   });
+
+  /// Authenticates a user anonymously.
+  Future anonymousLogin();
 }

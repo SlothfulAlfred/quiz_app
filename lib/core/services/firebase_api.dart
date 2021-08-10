@@ -114,4 +114,9 @@ class FirebaseApi implements Api {
   Future logout() async {
     await _auth.signOut();
   }
+
+  @override
+  Future anonymousLogin() async {
+    await _auth.signInAnonymously();
+  }
 }

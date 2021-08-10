@@ -170,4 +170,10 @@ class FakeApi implements Api {
     await Future.delayed(Duration(seconds: 1));
     return;
   }
+
+  @override
+  Future anonymousLogin() async {
+    await Future.delayed(Duration(seconds: 1));
+    return;
+  }
 }
