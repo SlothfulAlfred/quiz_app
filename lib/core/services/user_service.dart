@@ -13,6 +13,7 @@ class UserService {
   String? get email => _currentUser.email;
   String? get username => _currentUser.username;
   String? get profilePicture => _currentUser.profilePicturePath;
+  String get uid => _currentUser.uid;
   bool get isAnonymous => _currentUser.uid.isEmpty;
 
   /// Returns a list of completed question ID's for the current user.
@@ -33,13 +34,15 @@ class UserService {
     }
   }
 
-  /// Updates the key-value pair of a user with the given uid.
+  /// Updates a key-value pair of a user on Cloud Firestore using the uid.
+  ///
+  /// Doesn't update if the current user is anonymously signed in.
   void updateUserInformation({
     required String key,
-    required String value,
+    required dynamic value,
     required String uid,
   }) {
-    _api.updateUserInfo(key: key, value: value, userId: uid);
+    if (!isAnonymous) _api.updateUserInfo(key: key, value: value, userId: uid);
   }
 
   // Private interface
