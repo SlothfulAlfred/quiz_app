@@ -6,6 +6,7 @@ import 'package:quiz_app/core/services/navigation_service.dart';
 import 'package:quiz_app/core/services/scaffold_service.dart';
 import 'package:quiz_app/core/services/user_service.dart';
 import 'package:quiz_app/core/viewModels/base_model.dart';
+import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
 
@@ -114,6 +115,7 @@ class QuestionsViewModel extends BaseModel {
   }
 
   void _onInit(String id) async {
+    setState(ViewState.busy);
     questions = await _api.getQuestions(id);
     _filterAnswered();
 
@@ -123,5 +125,6 @@ class QuestionsViewModel extends BaseModel {
       return;
     }
     pushNextQuestion();
+    setState(ViewState.idle);
   }
 }

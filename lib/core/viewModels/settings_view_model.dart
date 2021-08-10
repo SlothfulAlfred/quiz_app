@@ -2,6 +2,7 @@ import 'package:quiz_app/core/services/authentication.dart';
 import 'package:quiz_app/core/services/user_service.dart';
 import 'package:quiz_app/core/services/navigation_service.dart';
 import 'package:quiz_app/core/viewModels/base_model.dart';
+import 'package:quiz_app/core/viewstate_enum.dart';
 import 'package:quiz_app/locator.dart';
 import 'package:quiz_app/ui/routing_constants.dart';
 
@@ -12,9 +13,11 @@ class SettingsViewModel extends BaseModel {
 
   bool get isAnonymous => _user.isAnonymous;
 
-  void logout() {
-    _auth.logout();
+  Future<void> logout() async {
+    setState(ViewState.busy);
+    await _auth.logout();
     _nav.pushReplacementNamed(loginRoute);
+    setState(ViewState.idle);
   }
 
   // Private interface
