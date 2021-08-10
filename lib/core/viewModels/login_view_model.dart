@@ -58,11 +58,14 @@ class LoginViewModel extends BaseModel {
     _nav.pushNamed(registrationRoute);
   }
 
-  void anonymousSignIn() {
+  Future<void> anonymousSignIn() async {
+    setState(ViewState.busy);
+    await _auth.anonymousLogin();
     // Resets the current user to a new anonymous user. This is so that
     // if a user is signed in anonymously, then navigates to the login page,
     // and signs in anonymously again, the progress will be reset.
     _user.currentUser = User.anonymous();
     _nav.pushReplacementNamed(homeRoute);
+    setState(ViewState.idle);
   }
 }

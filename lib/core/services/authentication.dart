@@ -73,4 +73,8 @@ class AuthenticationService {
     await _api.logout();
     _user.currentUser = User.anonymous();
   }
+
+  Future anonymousLogin() async {
+    await _api.anonymousLogin();
+  }
 }
