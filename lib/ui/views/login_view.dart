@@ -21,6 +21,7 @@ class _LoginViewState extends State<LoginView>
   final FocusNode _emailFocus = FocusNode();
 
   late final AnimationController _controller;
+  final Duration duration = const Duration(seconds: 2);
 
   @override
   void dispose() {
@@ -37,7 +38,7 @@ class _LoginViewState extends State<LoginView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: duration,
     )..forward();
   }
 
@@ -93,6 +94,7 @@ class _LoginViewState extends State<LoginView>
                   children: [
                     // Email Text Field.
                     FadeIn(
+                      duration: duration,
                       controller: _controller,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -109,6 +111,7 @@ class _LoginViewState extends State<LoginView>
                     ),
                     // password text field
                     FadeIn(
+                      duration: duration,
                       controller: _controller,
                       delay: 250,
                       child: Padding(
@@ -146,6 +149,7 @@ class _LoginViewState extends State<LoginView>
               VerticalSpace.small,
               // Wraps an [ElevatedButton] to provide a gradient effect.
               FadeIn(
+                duration: duration,
                 controller: _controller,
                 delay: 500,
                 child: GradientButton(
@@ -159,6 +163,7 @@ class _LoginViewState extends State<LoginView>
               ),
               VerticalSpace.small,
               FadeIn(
+                duration: duration,
                 controller: _controller,
                 delay: 1000,
                 child: TextButton(
@@ -172,6 +177,7 @@ class _LoginViewState extends State<LoginView>
                 ),
               ),
               FadeIn(
+                duration: duration,
                 controller: _controller,
                 delay: 1100,
                 child: TextButton(
@@ -185,6 +191,7 @@ class _LoginViewState extends State<LoginView>
                 ),
               ),
               FadeIn(
+                duration: duration,
                 controller: _controller,
                 delay: 1200,
                 child: TextButton(
