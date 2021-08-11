@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/viewModels/login_view_model.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
+import 'package:quiz_app/ui/animations/fade_in.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
 import 'package:quiz_app/ui/widgets/gradient_button.dart';
@@ -11,12 +12,15 @@ class LoginView extends StatefulWidget {
   _LoginViewState createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginView>
+    with SingleTickerProviderStateMixin {
   // Is Stateful widget so that controllers can be disposed.
   final TextEditingController _passwordText = TextEditingController();
   final TextEditingController _emailText = TextEditingController();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
+
+  late final AnimationController _controller;
 
   @override
   void dispose() {
@@ -24,7 +28,17 @@ class _LoginViewState extends State<LoginView> {
     _passwordText.dispose();
     _emailFocus.dispose();
     _emailText.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..forward();
   }
 
   @override
@@ -78,11 +92,14 @@ class _LoginViewState extends State<LoginView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Email Text Field.
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InputField(
-                        controller: _emailText,
-                        focus: _emailFocus,
+                    FadeIn(
+                      controller: _controller,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InputField(
+                          controller: _emailText,
+                          focus: _emailFocus,
+                        ),
                       ),
                     ),
                     // Divider to separate the two fields
@@ -91,12 +108,16 @@ class _LoginViewState extends State<LoginView> {
                       color: Colors.blueGrey,
                     ),
                     // password text field
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InputField(
-                        controller: _passwordText,
-                        focus: _passwordFocus,
-                        isPassword: true,
+                    FadeIn(
+                      controller: _controller,
+                      delay: 250,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InputField(
+                          controller: _passwordText,
+                          focus: _passwordFocus,
+                          isPassword: true,
+                        ),
                       ),
                     ),
                   ],
@@ -124,41 +145,57 @@ class _LoginViewState extends State<LoginView> {
                     ),
               VerticalSpace.small,
               // Wraps an [ElevatedButton] to provide a gradient effect.
-              GradientButton(
-                onPressed: () =>
-                    model.login(_emailText.text, _passwordText.text),
-                child: Text(
-                  "Login",
-                  style: Theme.of(context).textTheme.headline5,
+              FadeIn(
+                controller: _controller,
+                delay: 500,
+                child: GradientButton(
+                  onPressed: () =>
+                      model.login(_emailText.text, _passwordText.text),
+                  child: Text(
+                    "Login",
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
               ),
               VerticalSpace.small,
-              TextButton(
-                child: Text(
-                  'Forgot your password?',
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: Colors.blueGrey,
-                      ),
+              FadeIn(
+                controller: _controller,
+                delay: 1000,
+                child: TextButton(
+                  child: Text(
+                    'Forgot your password?',
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          color: Colors.blueGrey,
+                        ),
+                  ),
+                  onPressed: () {},
                 ),
-                onPressed: () {},
               ),
-              TextButton(
-                child: Text(
-                  'Create an account',
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: Colors.blueGrey,
-                      ),
+              FadeIn(
+                controller: _controller,
+                delay: 1100,
+                child: TextButton(
+                  child: Text(
+                    'Create an account',
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          color: Colors.blueGrey,
+                        ),
+                  ),
+                  onPressed: model.createAccount,
                 ),
-                onPressed: model.createAccount,
               ),
-              TextButton(
-                child: Text(
-                  'Sign in as guest',
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: Colors.blueGrey,
-                      ),
+              FadeIn(
+                controller: _controller,
+                delay: 1200,
+                child: TextButton(
+                  child: Text(
+                    'Sign in as guest',
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          color: Colors.blueGrey,
+                        ),
+                  ),
+                  onPressed: model.anonymousSignIn,
                 ),
-                onPressed: model.anonymousSignIn,
               ),
             ],
           ),
