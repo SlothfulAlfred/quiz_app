@@ -22,6 +22,7 @@ class _LoginViewState extends State<LoginView>
 
   late final AnimationController _controller;
   final Duration duration = const Duration(seconds: 2);
+  final Duration length = const Duration(milliseconds: 500);
 
   @override
   void dispose() {
@@ -94,6 +95,7 @@ class _LoginViewState extends State<LoginView>
                   children: [
                     // Email Text Field.
                     FadeIn(
+                      length: length,
                       duration: duration,
                       controller: _controller,
                       child: Padding(
@@ -111,6 +113,7 @@ class _LoginViewState extends State<LoginView>
                     ),
                     // password text field
                     FadeIn(
+                      length: length,
                       duration: duration,
                       controller: _controller,
                       delay: 250,
@@ -149,6 +152,7 @@ class _LoginViewState extends State<LoginView>
               VerticalSpace.small,
               // Wraps an [ElevatedButton] to provide a gradient effect.
               FadeIn(
+                length: length,
                 duration: duration,
                 controller: _controller,
                 delay: 500,
@@ -163,6 +167,7 @@ class _LoginViewState extends State<LoginView>
               ),
               VerticalSpace.small,
               FadeIn(
+                length: length,
                 duration: duration,
                 controller: _controller,
                 delay: 1000,
@@ -177,6 +182,7 @@ class _LoginViewState extends State<LoginView>
                 ),
               ),
               FadeIn(
+                length: length,
                 duration: duration,
                 controller: _controller,
                 delay: 1100,
@@ -191,6 +197,7 @@ class _LoginViewState extends State<LoginView>
                 ),
               ),
               FadeIn(
+                length: length,
                 duration: duration,
                 controller: _controller,
                 delay: 1200,
