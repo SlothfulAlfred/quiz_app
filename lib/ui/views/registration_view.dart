@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/viewModels/registration_view_model.dart';
 import 'package:quiz_app/core/viewstate_enum.dart';
+import 'package:quiz_app/ui/animations/fade_in.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
 import 'package:quiz_app/ui/widgets/gradient_button.dart';
@@ -13,7 +14,8 @@ class RegistrationView extends StatefulWidget {
   _RegistrationViewState createState() => _RegistrationViewState();
 }
 
-class _RegistrationViewState extends State<RegistrationView> {
+class _RegistrationViewState extends State<RegistrationView>
+    with SingleTickerProviderStateMixin {
   // [TextField] controllers and focuses.
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -25,6 +27,10 @@ class _RegistrationViewState extends State<RegistrationView> {
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
 
+  late final AnimationController _controller;
+  final Duration duration = const Duration(seconds: 1, milliseconds: 500);
+  final Duration length = const Duration(milliseconds: 500);
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -35,7 +41,17 @@ class _RegistrationViewState extends State<RegistrationView> {
     _usernameFocus.dispose();
     _passwordFocus.dispose();
     _confirmPasswordFocus.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: duration,
+    )..forward();
+    super.initState();
   }
 
   @override
@@ -70,28 +86,52 @@ class _RegistrationViewState extends State<RegistrationView> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          InputField(
-                            controller: _emailController,
-                            focus: _emailFocus,
+                          FadeIn(
+                            length: length,
+                            duration: duration,
+                            controller: _controller,
+                            delay: 0,
+                            child: InputField(
+                              controller: _emailController,
+                              focus: _emailFocus,
+                            ),
                           ),
                           Divider(height: 2),
-                          InputField(
-                            controller: _usernameController,
-                            focus: _usernameFocus,
-                            hintText: 'Username...',
+                          FadeIn(
+                            length: length,
+                            duration: duration,
+                            controller: _controller,
+                            delay: 250,
+                            child: InputField(
+                              controller: _usernameController,
+                              focus: _usernameFocus,
+                              hintText: 'Username...',
+                            ),
                           ),
                           Divider(height: 2),
-                          InputField(
-                            controller: _passwordController,
-                            focus: _passwordFocus,
-                            isPassword: true,
+                          FadeIn(
+                            length: length,
+                            duration: duration,
+                            controller: _controller,
+                            delay: 500,
+                            child: InputField(
+                              controller: _passwordController,
+                              focus: _passwordFocus,
+                              isPassword: true,
+                            ),
                           ),
                           Divider(height: 2),
-                          InputField(
-                            controller: _confirmPasswordController,
-                            focus: _confirmPasswordFocus,
-                            isPassword: true,
-                            hintText: 'Confirm password...',
+                          FadeIn(
+                            length: length,
+                            duration: duration,
+                            controller: _controller,
+                            delay: 750,
+                            child: InputField(
+                              controller: _confirmPasswordController,
+                              focus: _confirmPasswordFocus,
+                              isPassword: true,
+                              hintText: 'Confirm password...',
+                            ),
                           ),
                         ],
                       ),
@@ -111,16 +151,22 @@ class _RegistrationViewState extends State<RegistrationView> {
                       : Text('', style: TextStyle(fontSize: 16)),
                   VerticalSpace.small,
                   // Create Account button.
-                  GradientButton(
-                    onPressed: () => model.createAccount(
-                      email: _emailController.text,
-                      username: _usernameController.text,
-                      password: _passwordController.text,
-                      confirmed: _confirmPasswordController.text,
-                    ),
-                    child: Text(
-                      'Create Account',
-                      style: TextStyle(fontSize: 24),
+                  FadeIn(
+                    length: length,
+                    duration: duration,
+                    controller: _controller,
+                    delay: 1000,
+                    child: GradientButton(
+                      onPressed: () => model.createAccount(
+                        email: _emailController.text,
+                        username: _usernameController.text,
+                        password: _passwordController.text,
+                        confirmed: _confirmPasswordController.text,
+                      ),
+                      child: Text(
+                        'Create Account',
+                        style: TextStyle(fontSize: 24),
+                      ),
                     ),
                   ),
                 ],
