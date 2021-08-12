@@ -44,7 +44,7 @@ class NetworkImageHero extends StatelessWidget {
               image: NetworkImage(image),
               placeholder: AssetImage('assets/loading.gif'),
             ),
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           ),
         ),
       ),
