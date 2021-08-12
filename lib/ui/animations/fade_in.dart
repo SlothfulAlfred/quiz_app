@@ -4,16 +4,24 @@ class FadeIn extends StatefulWidget {
   final Widget child;
   final AnimationController controller;
 
-  /// The delay in milliseconds
-  final double delay;
+  /// The delay in milliseconds.
+  final int delay;
+
+  /// The total length of the animation. The [duration] parameter of the
+  /// [AnimationController] provided.
   final Duration duration;
 
-  const FadeIn({
+  /// The length of this animation.
+  final Duration length;
+
+  FadeIn({
     required this.child,
     required this.controller,
-    this.delay = 0.0,
+    this.delay = 0,
     this.duration = const Duration(seconds: 2),
-  });
+    Duration? length,
+  }) : length =
+            length ?? Duration(milliseconds: duration.inMilliseconds - delay);
 
   @override
   _FadeInState createState() => _FadeInState();
@@ -27,16 +35,15 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // _controller = AnimationController(
-    //   duration: widget.duration,
-    //   vsync: this,
-    // )..forward();
+    int duration = widget.duration.inMilliseconds;
+    int delay = widget.delay;
+    int length = widget.length.inMilliseconds;
 
     _opacity = Tween(begin: 0.0, end: 1.0).chain(
       CurveTween(
         curve: Interval(
-          widget.delay / widget.duration.inMilliseconds,
-          1.0,
+          delay / duration,
+          (delay + length <= duration) ? (delay + length) / duration : 1.0,
         ),
       ),
     );
@@ -44,8 +51,8 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
     _position = Tween(begin: Offset(0.0, -0.65), end: Offset.zero).chain(
       CurveTween(
         curve: Interval(
-          widget.delay / widget.duration.inMilliseconds,
-          1.0,
+          delay / duration,
+          (delay + length <= duration) ? (delay + length) / duration : 1.0,
         ),
       ),
     );
