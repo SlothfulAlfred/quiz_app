@@ -17,9 +17,9 @@ class QuizViewModel extends BaseModel {
         'quiz': quiz,
       },
       // Saves user progress after exiting [QuestionsView].
-    ).then((_) => _user.updateUserInformation(
+    ).then((_) async => await _user.updateUserInformation(
           key: 'progress',
-          value: _user.progress,
+          value: _user.progress.progress,
           uid: _user.uid,
         ));
   }
