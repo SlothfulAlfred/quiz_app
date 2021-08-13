@@ -4,6 +4,7 @@ import 'package:quiz_app/core/viewModels/quiz_view_model.dart';
 import 'package:quiz_app/ui/shared/base_view.dart';
 import 'package:quiz_app/ui/widgets/network_image_hero.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
+import 'package:quiz_app/ui/widgets/placeholder_hero.dart';
 
 class QuizView extends StatelessWidget {
   final Quiz quiz;
@@ -27,11 +28,16 @@ class QuizView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Flexible(
-              child: NetworkImageHero(
-                image: quiz.imagePath,
-                tag: quiz.id,
-                onTap: model.onHeroTapped,
-              ),
+              child: (quiz.imagePath.isNotEmpty)
+                  ? NetworkImageHero(
+                      image: quiz.imagePath,
+                      tag: quiz.id,
+                      onTap: model.onHeroTapped,
+                    )
+                  : PlaceholderHero(
+                      onTap: model.onHeroTapped,
+                      tag: quiz.id,
+                    ),
             ),
             VerticalSpace.small,
             Padding(

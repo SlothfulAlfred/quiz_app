@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
 import 'package:quiz_app/ui/widgets/network_image_hero.dart';
+import 'package:quiz_app/ui/widgets/placeholder_hero.dart';
 
 /// Stylized [GridTile] with a translucent header.
 class QuizTile extends StatelessWidget {
@@ -40,9 +41,9 @@ class QuizTile extends StatelessWidget {
             // it is still actually a normal rectangle in shape, so the [Stack]
             // doesn't automatically clip its children.
             ClipRRect(
-              child: (imagePath != null)
+              child: (imagePath != null && imagePath!.isNotEmpty)
                   ? NetworkImageHero(image: imagePath!, tag: id, onTap: onTap)
-                  : GestureDetector(onTap: onTap, child: Placeholder()),
+                  : PlaceholderHero(onTap: onTap, tag: id),
               borderRadius: BorderRadius.circular(16),
             ),
             ClipRRect(
@@ -53,14 +54,16 @@ class QuizTile extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: [Colors.black, Colors.black38],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter),
+                    colors: [Colors.black, Colors.black38],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
                 ),
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       title,
