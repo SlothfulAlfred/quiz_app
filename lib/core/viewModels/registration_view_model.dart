@@ -73,7 +73,9 @@ class RegistrationViewModel extends BaseModel {
               'An account already exists for this email. Please try again.');
           break;
         default:
-          setErrorMessage(result.message);
+          setErrorMessage(
+            "An error has occurred. Please check your internet connection and try again.",
+          );
       }
     }
     // Now that we are done operations, state is no longer busy

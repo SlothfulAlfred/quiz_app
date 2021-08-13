@@ -47,7 +47,9 @@ class LoginViewModel extends BaseModel {
           setErrorMessage('Your account has been disabled.');
           break;
         default:
-          setErrorMessage(result.message);
+          setErrorMessage(
+            "An error has occurred. Please check your internet connection and try again.",
+          );
       }
     }
     // Now that we are done operations, state is no longer busy
