@@ -36,15 +36,18 @@ class NetworkImageHero extends StatelessWidget {
       height: height ?? null,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          color: Colors.white,
-          constraints: BoxConstraints.expand(),
-          child: FittedBox(
-            child: FadeInImage(
-              image: NetworkImage(image),
-              placeholder: AssetImage('assets/loading.gif'),
+        child: Hero(
+          tag: tag,
+          child: Container(
+            color: Colors.white,
+            constraints: BoxConstraints.expand(),
+            child: FittedBox(
+              child: FadeInImage(
+                image: NetworkImage(image),
+                placeholder: AssetImage('assets/loading.gif'),
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
         ),
       ),
