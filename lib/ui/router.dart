@@ -58,6 +58,38 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
 /// Handles route generation for the nested Questions flow.
 Route nestedGenerateRoute(RouteSettings settings) {
+  // Animations needed to animate route transition.
+  Animatable<Offset> pushAnimation = Tween(
+    begin: Offset(0.0, 1.0),
+    end: Offset.zero,
+  ).chain(CurveTween(curve: Curves.easeInOut));
+
+  Animatable<Offset> popAnimation = Tween(
+    begin: Offset.zero,
+    end: Offset(0.0, -1.0),
+  ).chain(CurveTween(curve: Curves.easeInOut));
+
+  Widget _buildTransition(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget? child,
+  ) {
+    // The outer [SlideTransition] animates the incoming route
+    // (The route being pushed onto the screen), and the inner
+    // [SlideTransition] animates the outgoing route (The route
+    // that was popped off of the screen).
+    return SlideTransition(
+      child: SlideTransition(
+        position: popAnimation.animate(secondaryAnimation),
+        child: child,
+      ),
+      position: pushAnimation.animate(animation),
+    );
+  }
+
+  Widget page;
+
   switch (settings.name!) {
     case questionsRouteInProgress:
       // Extract arguments.
@@ -65,42 +97,27 @@ Route nestedGenerateRoute(RouteSettings settings) {
       Function onChoiceSelected = args['onChoiceSelected'];
       Question question = args['question'];
 
-      // return route with animated transition.
-      return PageRouteBuilder(
-        pageBuilder: (_, __, ___) => QuestionsViewPage(
-          question: question,
-          onChoiceSelected: onChoiceSelected,
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = Offset(0.0, 2.0);
-          var end = Offset.zero;
-          var tween = Tween(begin: begin, end: end).chain(
-            CurveTween(curve: Curves.easeInOut),
-          );
-          var opacityTween = Tween<double>(begin: 0.0, end: 1.0)
-              .chain(CurveTween(curve: Curves.easeInOut));
-
-          return SlideTransition(
-            child: FadeTransition(
-              child: child,
-              opacity: opacityTween.animate(animation),
-            ),
-            position: tween.animate(animation),
-          );
-        },
+      page = QuestionsViewPage(
+        question: question,
+        onChoiceSelected: onChoiceSelected,
       );
+      break;
 
     case questionsRouteStart:
-      return MaterialPageRoute(builder: (_) => QuestionsStartPage());
+      page = QuestionsStartPage();
+      break;
 
     case questionsRouteFinished:
-      return MaterialPageRoute(builder: (_) => QuestionsFinishedPage());
+      page = QuestionsFinishedPage();
+      break;
 
     default:
-      return MaterialPageRoute(
-        builder: (_) => ErrorView(
-          undefined: true,
-        ),
-      );
+      page = ErrorView(undefined: true);
   }
+  return (page is ErrorView)
+      ? MaterialPageRoute(builder: (_) => page)
+      : PageRouteBuilder(
+          pageBuilder: (_, __, ___) => page,
+          transitionsBuilder: _buildTransition,
+        );
 }
