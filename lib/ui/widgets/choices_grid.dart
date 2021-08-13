@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/core/models/api_models.dart';
-import 'package:quiz_app/ui/animations/fade_in.dart';
 import 'package:quiz_app/ui/shared/ui_helper.dart';
 
-/// 4x1 grid of randomly ordered, tappable choices which fade in.
+/// 4x1 grid of randomly ordered, tappable choices.
 class ChoicesGrid extends StatefulWidget {
   /// List of exactly four Choice objects that should be displayed.
   final List<Choice> choices;
@@ -30,8 +29,8 @@ class ChoicesGrid extends StatefulWidget {
 class _ChoicesGridState extends State<ChoicesGrid>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  final Duration duration = const Duration(seconds: 1, milliseconds: 500);
-  final Duration length = const Duration(milliseconds: 700);
+  final Duration duration = const Duration(seconds: 1, milliseconds: 400);
+  final Duration length = const Duration(milliseconds: 500);
 
   @override
   void initState() {
@@ -48,20 +47,15 @@ class _ChoicesGridState extends State<ChoicesGrid>
 
   List<Widget> _buildChoiceTiles() {
     List<Widget> tiles = [];
-    int delay = 0;
+
     for (int num in widget.order) {
       tiles.add(
-        FadeIn(
-          controller: _controller,
-          length: length,
-          delay: delay,
-          child: _ChoicesTile(
-              choice: widget.choices[num],
-              onChoiceSelect: widget.onChoiceSelect),
+        _ChoicesTile(
+          choice: widget.choices[num],
+          onChoiceSelect: widget.onChoiceSelect,
         ),
       );
       tiles.add(VerticalSpace.small);
-      delay += 200;
     }
     return tiles;
   }
@@ -105,13 +99,17 @@ class _ChoicesTile extends StatelessWidget {
                 choice,
                 SnackBar(
                   duration: Duration(seconds: 3),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   content: Container(
-                    height: sh * 0.08,
                     alignment: Alignment.center,
+                    height: sh * 0.10,
                     child: Text(
                       choice.hintText!,
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(color: Colors.white),
                     ),
                   ),
                   backgroundColor: Colors.red[900],
