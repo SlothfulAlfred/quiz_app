@@ -149,7 +149,7 @@ class FakeApi implements Api {
   @override
   Future updateUserInfo({
     required String key,
-    required String value,
+    required dynamic value,
     required String userId,
   }) async {
     await Future.delayed(Duration(seconds: 1));
@@ -160,6 +160,7 @@ class FakeApi implements Api {
   Future writeDocument({
     required Map<String, dynamic> document,
     required String collection,
+    String? docId,
   }) async {
     await Future.delayed(Duration(seconds: 1));
     return;

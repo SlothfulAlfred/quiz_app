@@ -21,7 +21,7 @@ class FirebaseApi implements Api {
         .get();
     // Accumulate the results in a list then return the list.
     query.docs.forEach((question) {
-      questions.add(Question.fromJson(question as Map));
+      questions.add(Question.fromJson(question.data()));
     });
     return questions;
   }
@@ -33,7 +33,7 @@ class FirebaseApi implements Api {
     // in a list. Return the list.
     await _db.collection('quiz').get().then((QuerySnapshot query) {
       query.docs.forEach((doc) {
-        quizzes.add(Quiz.fromJson(doc as Map));
+        quizzes.add(Quiz.fromJson(doc.data() as Map));
       });
     });
     return quizzes;
@@ -94,7 +94,7 @@ class FirebaseApi implements Api {
   @override
   Future updateUserInfo({
     required String key,
-    required String value,
+    required dynamic value,
     required String userId,
   }) async {
     var user = _db.collection('users').doc(userId);
@@ -105,9 +105,12 @@ class FirebaseApi implements Api {
   Future writeDocument({
     required Map<String, dynamic> document,
     required String collection,
+    String? docId,
   }) async {
     CollectionReference collectionRef = _db.collection(collection);
-    await collectionRef.add(document);
+    (docId != null)
+        ? await collectionRef.doc(docId).set(document)
+        : await collectionRef.add(document);
   }
 
   @override

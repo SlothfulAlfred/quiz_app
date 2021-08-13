@@ -30,7 +30,7 @@ abstract class Api {
   /// Updates a field of a user's information on Firestore.
   Future updateUserInfo({
     required String key,
-    required String value,
+    required dynamic value,
     required String userId,
   });
 
@@ -38,6 +38,7 @@ abstract class Api {
   Future writeDocument({
     required Map<String, dynamic> document,
     required String collection,
+    String? docId,
   });
 
   /// Authenticates a user anonymously.
