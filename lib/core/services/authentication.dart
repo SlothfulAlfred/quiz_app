@@ -62,7 +62,11 @@ class AuthenticationService {
       );
       // Update current user in [UserService] and write user to firestore.
       _user.currentUser = newUser;
-      await _api.writeDocument(document: newUser.toJson(), collection: 'users');
+      await _api.writeDocument(
+        document: newUser.toJson(),
+        collection: 'users',
+        docId: uid,
+      );
       return true;
     } else {
       return response.error;
