@@ -92,7 +92,7 @@ class QuestionsViewModel extends BaseModel {
 
   /// Adds the indices of all unanswered questions to [_choosable].
   void _filterAnswered() {
-    List<String> progress = _user.getProgressForQuiz(quiz.id);
+    List<String> progress = _user.getProgressForQuiz(quiz.id).cast<String>();
     // Populating [_choosable].
     for (int i = 0; i < questions.length; i++) {
       if (progress.contains(questions[i].id)) continue;
