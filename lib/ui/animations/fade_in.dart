@@ -14,12 +14,17 @@ class FadeIn extends StatefulWidget {
   /// The length of this animation.
   final Duration length;
 
+  /// How the [child] should slide onto the screen. Defaults to
+  /// from 0.65x the height of [child].
+  final Animatable<Offset>? position;
+
   FadeIn({
     required this.child,
     required this.controller,
     this.delay = 0,
     this.duration = const Duration(seconds: 2),
     Duration? length,
+    this.position,
   }) : length =
             length ?? Duration(milliseconds: duration.inMilliseconds - delay);
 
@@ -70,7 +75,9 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
       opacity: _opacity.animate(widget.controller),
       child: SlideTransition(
         child: widget.child,
-        position: _position.animate(widget.controller),
+        // Uses the given posiiton animation if not null, otherwise use
+        // the default as a fallback.
+        position: (widget.position ?? _position).animate(widget.controller),
       ),
     );
   }
