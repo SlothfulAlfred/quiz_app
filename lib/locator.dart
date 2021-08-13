@@ -7,7 +7,7 @@ import 'core/models/api_models.dart' show Quiz;
 GetIt locator = GetIt.instance;
 
 // Toogle the use of the fake Api
-bool useFakeData = true;
+bool useFakeData = false;
 
 // All ViewModels should be registered as factory so that they can be
 // re-accessed. For example, if you register [LoginViewModel] as a
