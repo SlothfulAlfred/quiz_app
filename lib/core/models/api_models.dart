@@ -133,10 +133,15 @@ class User {
 class Progress {
   final Map<String, List<String>> _progress;
 
-  MapView<String, List<String>> get progress =>
-      MapView<String, List<String>>(_progress);
+  get progress => _progress;
 
-  Progress(this._progress);
+  Progress(Map<String, dynamic> progress) : _progress = {} {
+    for (String key in progress.keys) {
+      var temp = progress[key];
+      _progress[key] = List<String>.from(temp!);
+    }
+  }
+
   Progress.none() : _progress = <String, List<String>>{};
 }
 
