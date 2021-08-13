@@ -19,10 +19,8 @@ class UserService {
   /// Returns a list of completed question ID's for the current user.
   List<String> getProgressForQuiz(String quizId) {
     var progress = _currentUser.progress.progress;
-    if (progress.containsKey(quizId)) {
-      return progress[quizId]!;
-    }
-    return <String>[];
+
+    return List<String>.from((progress[quizId] ?? <String>[]));
   }
 
   void setQuestionAnswered(String quizId, String questionId) {
@@ -37,12 +35,13 @@ class UserService {
   /// Updates a key-value pair of a user on Cloud Firestore using the uid.
   ///
   /// Doesn't update if the current user is anonymously signed in.
-  void updateUserInformation({
+  Future<void> updateUserInformation({
     required String key,
     required dynamic value,
     required String uid,
-  }) {
-    if (!isAnonymous) _api.updateUserInfo(key: key, value: value, userId: uid);
+  }) async {
+    if (!isAnonymous)
+      await _api.updateUserInfo(key: key, value: value, userId: uid);
   }
 
   // Private interface
