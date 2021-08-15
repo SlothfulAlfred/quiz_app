@@ -47,7 +47,13 @@ class _LoginViewState extends State<LoginView>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FlutterLogo(),
+        ),
+        title: Text('Quiz App'),
+      ),
       body: BaseView<LoginViewModel, void, void>(
         builder: _buildContent,
         onBuild: (LoginViewModel model) {
