@@ -2,6 +2,12 @@
 
 A quiz app offering quizzes related to various programming topics.
 
+## Get Started
+* set up flutter [https://flutter.dev/docs/get-started/install]
+* clone the repository
+* run ```flutter pub get``` in the command line
+* start the app using ```flutter run```
+
 ## Inspiration
 
 This app is inspired by Fireship's flutter firebase full stack course, during which he also creates a quiz app. The full course is at https://fireship.io/courses/flutter-firebase/. I thought this was a great idea for an intermediate level project and tried to build the app on my own. I did not take Fireship's course, but I'm sure the final product would be much better than mine. 
@@ -38,3 +44,8 @@ MVVM
  
 #### Using Flutter Built-in Widgets
   This project has introduced me into uses of simple Flutter built-ins to create beautiful designs. For example, using [DecoratedBox] to wrap a button and create a gradient, or using a [Container] with a [BoxShadow] to create an elevated card. 
+  
+## Todo 
+[ ] Write Firestore security rules
+[ ] Change profile pictures using image_picker plugin
+[ ] Write more quizzes and questions; create art for quizzes
