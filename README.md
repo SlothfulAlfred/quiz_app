@@ -48,4 +48,5 @@ MVVM
 ## Todo 
 - [ ] Write Firestore security rules
 - [ ] Change profile pictures using image_picker plugin
-- [ ] Write more quizzes and questions; create art for quizzes
+- [ ] <s>Write more quizzes and questions</s>; create art for quizzes
+- [ ] Automate deletion of abandoned aunonymous accounts from Firebase Authentication
