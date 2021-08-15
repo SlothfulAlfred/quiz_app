@@ -29,7 +29,15 @@ class AuthenticationService {
       return FirebaseAuthException(
           code: 'empty-field', message: 'One or more fields is empty.');
     }
-    LoginResponse response = await _api.login(email, password);
+    LoginResponse response = await _api.login(email, password).timeout(
+          Duration(seconds: 10),
+          onTimeout: () => LoginResponse(
+            success: false,
+            error: Exception(
+              "No connection. Please check your connection and try again.",
+            ),
+          ),
+        );
     if (response.success == true) {
       // If user is logged in properly, get more user information that
       // isn't stored in firebase auth (pfp pathway, username, quiz progress),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:quiz_app/core/models/api_models.dart';
 import 'package:quiz_app/core/services/authentication.dart';
 import 'package:quiz_app/core/services/user_service.dart';
@@ -31,7 +32,7 @@ class LoginViewModel extends BaseModel {
       // pushReplacementNamed is used here so that the user cannot
       // press the back button and return to the login screen.
       _nav.pushReplacementNamed(homeRoute);
-    } else {
+    } else if (result is FirebaseAuthException) {
       // Handling which error message to display
       switch (result.code) {
         case 'invalid-email':
@@ -51,6 +52,8 @@ class LoginViewModel extends BaseModel {
             "An error has occurred. Please check your internet connection and try again.",
           );
       }
+    } else {
+      setErrorMessage(result.message);
     }
     // Now that we are done operations, state is no longer busy
     setState(ViewState.idle);
