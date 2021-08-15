@@ -16,7 +16,7 @@ class SettingsViewModel extends BaseModel {
   Future<void> logout() async {
     setState(ViewState.busy);
     await _auth.logout();
-    _nav.pushReplacementNamed(loginRoute);
+    _nav.pushAndRemoveAll(loginRoute);
     setState(ViewState.idle);
   }
 
