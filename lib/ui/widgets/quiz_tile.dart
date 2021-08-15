@@ -52,15 +52,18 @@ class QuizTile extends StatelessWidget {
                 bottomRight: Radius.circular(16),
               ),
               child: Container(
+                alignment: Alignment.bottomCenter,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.black, Colors.black38],
+                    colors: [Colors.black, Colors.black45],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ),
                 ),
+                height: 90,
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,6 +73,7 @@ class QuizTile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     VerticalSpace.extraSmall,
                     ProgressBar(length, completed),

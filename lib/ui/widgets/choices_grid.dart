@@ -87,12 +87,18 @@ class _ChoicesTile extends StatelessWidget {
     double sh = MediaQuery.of(context).size.height;
     return ElevatedButton(
       style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(Colors.white.withOpacity(0.90)),
-          shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-          side: MaterialStateProperty.all(
-              BorderSide(color: Colors.teal, width: 2))),
+        backgroundColor:
+            MaterialStateProperty.all(Colors.white.withOpacity(0.90)),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+        side:
+            MaterialStateProperty.all(BorderSide(color: Colors.teal, width: 2)),
+        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 12,
+        )),
+        minimumSize: MaterialStateProperty.all(Size.fromHeight(56)),
+      ),
       onPressed: (choice.isCorrect)
           ? () => onChoiceSelect(choice)
           : () => onChoiceSelect(
@@ -110,6 +116,7 @@ class _ChoicesTile extends StatelessWidget {
                           .textTheme
                           .headline5!
                           .copyWith(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   backgroundColor: Colors.red[900],
@@ -117,6 +124,7 @@ class _ChoicesTile extends StatelessWidget {
               ),
       child: Text(
         choice.text,
+        textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headline2!,
       ),
     );

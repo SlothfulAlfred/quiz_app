@@ -72,6 +72,7 @@ class QuestionsViewPage extends StatelessWidget {
             Text(
               question.question,
               style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
             ),
             VerticalSpace.large,
             ChoicesGrid(
