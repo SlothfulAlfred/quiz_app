@@ -29,7 +29,10 @@ class NavigationService {
   /// the need for [BuildContext].
   ///
   /// ** [NavigatorState] is the return value of [Navigator.of].
-  Future<Object?> pushNamed(String route, {dynamic arguments}) {
+  Future<Object?> pushNamed(
+    String route, {
+    dynamic arguments,
+  }) {
     // Using ! operator here because the navigator must exist since it
     // was created above.
     return nav.currentState!.pushNamed<dynamic>(route, arguments: arguments);
@@ -43,7 +46,10 @@ class NavigationService {
 
   /// Same functionality as [NavigatorState.pushReplacementNamed] but
   /// without the need for [BuildContext].
-  Future<Object?> pushReplacementNamed(String route, {dynamic arguments}) {
+  Future<Object?> pushReplacementNamed(
+    String route, {
+    dynamic arguments,
+  }) {
     // The <dynamic, dynamic> typing is to prevent a casting error.
     // "_CastError (type 'MaterialPageRoute<dynamic>' is not a subtype of type 'Route<Object>?' in type cast)"
     // It seems this happens because of issues with the return value, which explains why
@@ -69,14 +75,19 @@ class NavigationService {
   }
 
   /// Pushes a named route for a nested navigator flow.
-  Future<Object?> nestedPushNamed(String route, {dynamic arguments}) {
+  Future<Object?> nestedPushNamed(
+    String route, {
+    dynamic arguments,
+  }) {
     return nestedNav.currentState!
         .pushNamed<dynamic>(route, arguments: arguments);
   }
 
   /// Pushes a replacement named route in a nested navigator flow.
-  Future<Object?> nestedPushReplacementNamed(String route,
-      {dynamic arguments}) {
+  Future<Object?> nestedPushReplacementNamed(
+    String route, {
+    dynamic arguments,
+  }) {
     return nestedNav.currentState!
         .pushReplacementNamed<dynamic, dynamic>(route, arguments: arguments);
   }
@@ -84,5 +95,27 @@ class NavigationService {
   /// Pops a nested route from the stack.
   void nestedPop<T extends Object?>([T? result]) {
     return nestedNav.currentState!.pop<dynamic>(result);
+  }
+
+  /// Push a new route and remove previous routes until [removeUntil] is
+  /// reached.
+  Future<T?> pushAndRemoveUntilNamed<T extends Object?>(
+    String newRouteName,
+    String removeUntil, {
+    Object? arguments,
+  }) {
+    return nav.currentState!.pushNamedAndRemoveUntil(
+        newRouteName, ModalRoute.withName(removeUntil),
+        arguments: arguments);
+  }
+
+  /// Push a new route and remove all previous routes.
+  Future<T?> pushAndRemoveAll<T extends Object?>(
+    String newRouteName, {
+    Object? arguments,
+  }) {
+    return nav.currentState!.pushNamedAndRemoveUntil(
+        newRouteName, (Route<dynamic> route) => false,
+        arguments: arguments);
   }
 }
