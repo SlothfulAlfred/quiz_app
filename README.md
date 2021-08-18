@@ -46,7 +46,7 @@ MVVM
   This project has introduced me into uses of simple Flutter built-ins to create beautiful designs. For example, using [DecoratedBox] to wrap a button and create a gradient, or using a [Container] with a [BoxShadow] to create an elevated card. 
   
 ## Todo 
-- [ ] Write Firestore security rules
+- [x] Write Firestore security rules
 - [ ] Change profile pictures using image_picker plugin
 - [ ] <s>Write more quizzes and questions</s>; create art for quizzes
 - [ ] Automate deletion of abandoned aunonymous accounts from Firebase Authentication
